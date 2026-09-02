@@ -1128,6 +1128,18 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{30a. AutoTuner Result: Modulating Duty Cycle ($d_a$) High-Resolution Zoom}
+    \centering
+    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_da_Zoomed.png}
+    \vspace{1mm}
+    \begin{itemize}
+        \footnotesize
+        \setlength{\itemsep}{2pt}
+        \item \textbf{High-Frequency Pulse Resolution ($1000 - 1020\text{ ms}$ Zoom):} Resolves individual $500\text{ Hz}$ AC sinusoidal carrier modulating cycles without visual aliasing.
+        \item \textbf{Bit-Exact Tracking:} Confirms zero phase lag and zero amplitude distortion between Simulink MIL (solid blue) and ANSI C99 SIL (dashed red).
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{31. AutoTuner Result: Control Mode Flag (`ctrl\_mode`) MIL vs. SIL}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_ctrl_mode.png}

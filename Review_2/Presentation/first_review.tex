@@ -759,7 +759,53 @@
 
 %%% >>> END CCS-MPC RESULT SLIDES <<<
 
-\begin{frame}{20. FOC vs CCS-MPC: Direct Overlay Comparison with 60\% load}
+\begin{frame}{20. FOC vs CCS-MPC: Varying Load Comparison}
+    \centering
+    \footnotesize\textbf{Summary Table (Base Torque = -250 Nm, Speed = 800 rad/s, Sim Time = 0.6s)}
+    \vspace{1mm}
+
+    \renewcommand{\arraystretch}{0.95}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{c l c c c c c c c c c}
+        \toprule
+        \textbf{Load (\%)} & \textbf{Controller} & \textbf{Max Spd} & \textbf{Rise (s)} & \textbf{Settl (s)} & \textbf{Over (\%)} & \textbf{SS Err} & \textbf{Spd Rip} & \textbf{Iq Rip (A)} & \textbf{Trq Rip (Nm)} & \textbf{THD (\%)} \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{100} & \textbf{CCS-MPC} & 801.1968 & 0.3599 & 0.4419 & \textbf{0.1496} & 45.0467 & \textbf{57.8963} & \textbf{89.2013} & \textbf{10.7042} & \textbf{1.0047} \\
+                     & FOC              & 807.7869 & 0.3548 & 0.4472 & 0.9734 & 47.8207 & 58.6633 & 280.2387 & 33.6286 & 13.3310 \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{80}  & \textbf{CCS-MPC} & 801.1710 & 0.3599 & 0.4416 & \textbf{0.1464} & 44.4877 & \textbf{57.4289} & \textbf{77.1475} & \textbf{9.2577} & \textbf{1.8818} \\
+                     & FOC              & 806.7453 & 0.3550 & 0.4450 & 0.8432 & 47.1661 & 58.4969 & 268.9937 & 32.2792 & 28.2914 \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{60}  & \textbf{CCS-MPC} & 801.2991 & 0.3598 & 0.4414 & \textbf{0.1624} & 44.4882 & \textbf{57.4287} & \textbf{94.2956} & \textbf{11.3155} & \textbf{3.1891} \\
+                     & FOC              & 805.9658 & 0.3553 & 0.4430 & 0.7457 & 46.4910 & 57.9538 & 253.6331 & 30.4360 & 23.2509 \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{50}  & \textbf{CCS-MPC} & 801.3479 & 0.3598 & 0.4415 & \textbf{0.1685} & 44.4885 & \textbf{57.4287} & \textbf{93.4703} & \textbf{11.2164} & \textbf{3.0972} \\
+                     & FOC              & 805.2953 & 0.3561 & 0.4431 & 0.6619 & 45.8946 & 58.4370 & 265.6205 & 31.8745 & 22.6466 \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{20}  & \textbf{CCS-MPC} & 801.0333 & 0.3599 & 0.4415 & \textbf{0.1292} & 44.4890 & \textbf{57.4289} & \textbf{118.1778} & \textbf{14.1813} & \textbf{0.1741} \\
+                     & FOC              & 804.9702 & 0.3596 & 0.4425 & 0.6213 & 45.0811 & 58.0787 & 237.2207 & 28.4665 & 1.7142 \\
+        \midrule
+        \rowcolor{blue!5} 
+        \textbf{0}   & \textbf{CCS-MPC} & 801.2315 & 0.3595 & 0.4410 & \textbf{0.1539} & 44.4875 & \textbf{57.4277} & \textbf{132.0402} & \textbf{15.8448} & \textbf{0.2859} \\
+                     & FOC              & 805.7548 & 0.3596 & 0.4413 & 0.7193 & 44.2470 & 58.0075 & 231.2172 & 27.7461 & 5.7255 \\
+        \bottomrule
+    \end{tabular}
+    }
+    
+    \vspace{1.5mm}
+    \begin{block}{Load Condition Summary}
+        \tiny
+        \textbf{Heavy / Rated Load Performance (50--100\%):} CCS-MPC proves vastly superior, suppressing torque ripple by \textbf{$3.14\times$} ($10.70\text{ Nm}$ vs $33.63\text{ Nm}$ at 100\%) and $I_q$ ripple by \textbf{$3.49\times$} ($77.15\text{ A}$ vs $268.99\text{ A}$ at 80\%), while maintaining ultra-low THD ($1.00\%$ vs $13.33\%$). \\
+        \textbf{Light / No-Load Performance (0--20\%):} CCS-MPC exhibits tight speed overshoot ($\le 0.15\%$ vs up to $0.72\%$) and superior harmonic suppression ($0.17\%$ vs $1.71\%$ THD at 20\% load).
+    \end{block}
+\end{frame}
+
+\begin{frame}{20a. FOC vs CCS-MPC: Direct Overlay Comparison with 60\% load}
     \centering
     \includegraphics[height=0.9\textheight,keepaspectratio]{FOC_VS_MPC.png}
 \end{frame}
@@ -952,41 +998,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{29. Master Verification Summary: MIL vs. SIL Equivalence}
-    \centering
-    \footnotesize
-    \textbf{Summary of All Verified Signals across Standalone Modules ($T_s = 5\ \mu\text{s}$, Rate = $10\text{ kHz}$)}
-    \vspace{2mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.1}
-    \begin{tabular}{l l c c c c}
-        \toprule
-        \textbf{Module} & \textbf{Verified Signal} & \textbf{Unit} & \textbf{Max Abs Error} & \textbf{RMSE} & \textbf{Fidelity Status} \\
-        \midrule
-        \rowcolor{blue!5} \textbf{AutoTuner} & Stator Resistance ($R_s$) & $\Omega$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \textbf{AutoTuner} & $d$-axis Inductance ($L_d$) & H & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{AutoTuner} & $q$-axis Inductance ($L_q$) & H & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \textbf{AutoTuner} & PM Flux Linkage ($\Psi_{PM}$) & Wb & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{AutoTuner} & Rotor Inertia ($J$) & $\text{kg}\cdot\text{m}^2$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \textbf{AutoTuner} & Viscous Friction ($B$) & $\text{N}\cdot\text{m}\cdot\text{s}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{AutoTuner} & Duty Cycles ($d_a, d_b, d_c$) & p.u. & \textbf{3.33e-16} & \textbf{1.26e-17} & \textbf{Epsilon Match} \\
-        \textbf{AutoTuner} & Control Mode (\texttt{ctrl\_mode}) & — & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{Speed MPC} & Torque Current Ref ($i_{q,ref}$) & A & \textbf{1.14e-13} & \textbf{2.45e-14} & \textbf{Epsilon Match} \\
-        \textbf{Speed MPC} & Demag Current Ref ($i_{d,ref}$) & A & \textbf{1.14e-13} & \textbf{3.12e-14} & \textbf{Epsilon Match} \\
-        \rowcolor{blue!5} \textbf{CCS-MPC} & Optimal Voltages ($v_{d,ref}, v_{q,ref}$) & V & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \textbf{CCS-MPC} & Modulating Duties ($d_a, d_b, d_c$) & p.u. & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{CCS-MPC} & Inverter Gate Pulses ($S_a, S_b, S_c$) & $\{0, 1\}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \bottomrule
-    \end{tabular}%
-    }
-    \vspace{2mm}
-    \begin{itemize}
-        \item \textbf{Numerical Equivalence:} Zero discretization drift or compiler optimization divergence across all signals.
-        \item \textbf{Determinism:} All state machine transitions and comparator thresholds execute bit-for-bit identically.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{29a. Overall Self-Commissioning Cascaded Control Architecture}
+\begin{frame}{29. Overall Self-Commissioning Cascaded Control Architecture}
     \centering
     \vspace{4mm}
     \resizebox{0.95\textwidth}{!}{%
@@ -1034,7 +1046,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{29b. Standalone AutoTuner Subsystem}
+\begin{frame}{29a. Standalone AutoTuner Subsystem}
     \centering
     \vspace{2mm}
     \resizebox{0.88\textwidth}{!}{%
@@ -1850,50 +1862,47 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{74. Comprehensive Benchmark Summary: FOC vs. CCS-MPC Across Load Envelope}
+\begin{frame}{74. Master Verification Summary: Complete MIL vs. SIL Equivalence}
     \centering
-    \footnotesize\textbf{Full Summary Table (Base Torque = -250 Nm, Speed = 800 rad/s, Sim Time = 0.6s)}
-    \vspace{1mm}
-
-    \renewcommand{\arraystretch}{0.95}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{c l c c c c c c c c c}
-        \toprule
-        \textbf{Load (\%)} & \textbf{Controller} & \textbf{Max Spd} & \textbf{Rise (s)} & \textbf{Settl (s)} & \textbf{Over (\%)} & \textbf{SS Err} & \textbf{Spd Rip} & \textbf{Iq Rip (A)} & \textbf{Trq Rip (Nm)} & \textbf{THD (\%)} \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{100} & \textbf{CCS-MPC} & 801.1968 & 0.3599 & 0.4419 & \textbf{0.1496} & 45.0467 & \textbf{57.8963} & \textbf{89.2013} & \textbf{10.7042} & \textbf{1.0047} \\
-                     & FOC              & 807.7869 & 0.3548 & 0.4472 & 0.9734 & 47.8207 & 58.6633 & 280.2387 & 33.6286 & 13.3310 \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{80}  & \textbf{CCS-MPC} & 801.1710 & 0.3599 & 0.4416 & \textbf{0.1464} & 44.4877 & \textbf{57.4289} & \textbf{77.1475} & \textbf{9.2577} & \textbf{1.8818} \\
-                     & FOC              & 806.7453 & 0.3550 & 0.4450 & 0.8432 & 47.1661 & 58.4969 & 268.9937 & 32.2792 & 28.2914 \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{60}  & \textbf{CCS-MPC} & 801.2991 & 0.3598 & 0.4414 & \textbf{0.1624} & 44.4882 & \textbf{57.4287} & \textbf{94.2956} & \textbf{11.3155} & \textbf{3.1891} \\
-                     & FOC              & 805.9658 & 0.3553 & 0.4430 & 0.7457 & 46.4910 & 57.9538 & 253.6331 & 30.4360 & 23.2509 \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{50}  & \textbf{CCS-MPC} & 801.3479 & 0.3598 & 0.4415 & \textbf{0.1685} & 44.4885 & \textbf{57.4287} & \textbf{93.4703} & \textbf{11.2164} & \textbf{3.0972} \\
-                     & FOC              & 805.2953 & 0.3561 & 0.4431 & 0.6619 & 45.8946 & 58.4370 & 265.6205 & 31.8745 & 22.6466 \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{20}  & \textbf{CCS-MPC} & 801.0333 & 0.3599 & 0.4415 & \textbf{0.1292} & 44.4890 & \textbf{57.4289} & \textbf{118.1778} & \textbf{14.1813} & \textbf{0.1741} \\
-                     & FOC              & 804.9702 & 0.3596 & 0.4425 & 0.6213 & 45.0811 & 58.0787 & 237.2207 & 28.4665 & 1.7142 \\
-        \midrule
-        \rowcolor{blue!5} 
-        \textbf{0}   & \textbf{CCS-MPC} & 801.2315 & 0.3595 & 0.4410 & \textbf{0.1539} & 44.4875 & \textbf{57.4277} & \textbf{132.0402} & \textbf{15.8448} & \textbf{0.2859} \\
-                     & FOC              & 805.7548 & 0.3596 & 0.4413 & 0.7193 & 44.2470 & 58.0075 & 231.2172 & 27.7461 & 5.7255 \\
-        \bottomrule
-    \end{tabular}
-    }
-    
+    \footnotesize
+    \textbf{Summary of All Verified Signals across Standalone Modules \& Tracking Loops ($T_s = 5\ \mu\text{s}$, Rate = $10\text{ kHz}$)}
     \vspace{1.5mm}
-    \begin{block}{Grand Benchmark Takeaways}
-        \tiny
-        \textbf{Heavy / Rated Load Performance (50--100\%):} CCS-MPC proves vastly superior, suppressing torque ripple by \textbf{$3.14\times$} ($10.70\text{ Nm}$ vs $33.63\text{ Nm}$ at 100\%) and $I_q$ ripple by \textbf{$3.49\times$} ($77.15\text{ A}$ vs $268.99\text{ A}$ at 80\%), while maintaining ultra-low THD ($1.00\%$ vs $13.33\%$). \\
-        \textbf{Light / No-Load Performance (0--20\%):} CCS-MPC exhibits tight speed overshoot ($\le 0.15\%$ vs up to $0.72\%$) and superior harmonic suppression ($0.17\%$ vs $1.71\%$ THD at 20\% load).
-    \end{block}
+    \resizebox{0.95\textwidth}{!}{%
+    \renewcommand{\arraystretch}{1.02}
+    \begin{tabular}{l l c c c c}
+        \toprule
+        \textbf{Module} & \textbf{Verified Signal / State} & \textbf{Unit} & \textbf{Max Abs Error} & \textbf{RMSE / Ripple} & \textbf{Fidelity Status} \\
+        \midrule
+        \rowcolor{blue!5} \textbf{AutoTuner} & Stator Resistance ($R_s$) & $\Omega$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{AutoTuner} & $d$-axis Inductance ($L_d$) & H & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{AutoTuner} & $q$-axis Inductance ($L_q$) & H & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{AutoTuner} & PM Flux Linkage ($\Psi_{PM}$) & Wb & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{AutoTuner} & Rotor Inertia ($J$) & $\text{kg}\cdot\text{m}^2$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{AutoTuner} & Viscous Friction ($B$) & $\text{N}\cdot\text{m}\cdot\text{s}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{AutoTuner} & Modulating Duties ($d_a, d_b, d_c$) & p.u. & \textbf{3.33e-16} & \textbf{1.26e-17} & \textbf{Epsilon Match} \\
+        \textbf{AutoTuner} & Control Mode Flag (\texttt{ctrl\_mode}) & — & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{AutoTuner} & Speed Setpoint Output ($\omega_{ref,out}$) & rad/s & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \midrule
+        \textbf{Speed MPC} & Mechanical Speed Tracking ($\omega_e$) & rad/s & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{Speed MPC} & Dynamic Torque Current Ref ($i_{q,ref}$) & A & \textbf{1.14e-13} & \textbf{2.45e-14} & \textbf{Epsilon Match} \\
+        \textbf{Speed MPC} & Demag / Reluctance Current Ref ($i_{d,ref}$) & A & \textbf{1.14e-13} & \textbf{3.12e-14} & \textbf{Epsilon Match} \\
+        \midrule
+        \rowcolor{blue!5} \textbf{CCS-MPC} & Direct Optimal Voltage ($v_{d,ref}$) & V & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{CCS-MPC} & Quadrature Optimal Voltage ($v_{q,ref}$) & V & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{CCS-MPC} & Modulating Duties ($d_a, d_b, d_c$) & p.u. & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{CCS-MPC} & Inverter Gate Pulses ($S_a, S_b, S_c$) & $\{0, 1\}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{CCS-MPC} & Dynamic $q$-axis Tracking ($i_q \le 460\text{ A}$) & A & \textbf{0.00e+00} & Ripple $35.83\text{ A}_{pp}$ & \textbf{Verified ($\le \Delta I_{Lq}$)} \\
+        \textbf{CCS-MPC} & Dynamic $d$-axis Tracking ($i_d \ge -240\text{ A}$) & A & \textbf{0.00e+00} & Ripple $64.55\text{ A}_{pp}$ & \textbf{Verified ($\le \Delta I_{Ld}$)} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \vspace{2mm}
+    \begin{itemize}
+        \footnotesize
+        \setlength{\itemsep}{2pt}
+        \item \textbf{Bit-Exact MIL vs. SIL Equivalence:} $100\%$ determinism verified between Simulink and Embedded Coder ANSI C99 firmware across all standalone control modules.
+        \item \textbf{Physical Tracking Conformity:} Closed-loop currents track zero-mean reference under full $250\text{ N}\cdot\text{m}$ load, bounded strictly below theoretical inverter ripple limits ($\Delta I_{Lq,max} = 70.8\text{ A}_{pp}$, $\Delta I_{Ld,max} = 140.5\text{ A}_{pp}$).
+    \end{itemize}
 \end{frame}
 
 \end{document}

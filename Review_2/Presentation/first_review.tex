@@ -1000,49 +1000,58 @@
 
 \begin{frame}{29. Overall Self-Commissioning Cascaded Control Architecture}
     \centering
-    \vspace{4mm}
-    \resizebox{0.95\textwidth}{!}{%
+    \vspace{2mm}
+    \resizebox{0.96\textwidth}{!}{%
     \begin{tikzpicture}[
-        box/.style = {rectangle, draw=blue!80!black, line width=1.2pt, fill=blue!8, rounded corners=3pt, align=center, font=\small\bfseries, minimum height=1.0cm, minimum width=2.0cm},
-        plant/.style = {rectangle, draw=black!80, line width=1.2pt, fill=gray!15, rounded corners=3pt, align=center, font=\small\bfseries, minimum height=1.0cm, minimum width=2.0cm},
-        tuner/.style = {rectangle, draw=orange!80!black, line width=1.2pt, fill=orange!10, rounded corners=3pt, align=center, font=\small\bfseries, minimum height=0.9cm, minimum width=3.5cm},
-        arr/.style = {->, >=Stealth, line width=1.1pt, draw=blue!80!black},
-        fb/.style = {->, >=Stealth, line width=1.0pt, draw=black!70, dashed},
-        tune/.style = {->, >=Stealth, line width=1.0pt, draw=orange!80!black}
+        ctrl/.style = {rectangle, draw=blue!80!black, line width=1.2pt, fill=blue!10, rounded corners=4pt, align=center, font=\footnotesize\bfseries, minimum height=1.1cm, text width=2.1cm},
+        plant/.style = {rectangle, draw=black!80, line width=1.2pt, fill=gray!20, rounded corners=4pt, align=center, font=\footnotesize\bfseries, minimum height=1.1cm, text width=2.0cm},
+        tuner/.style = {rectangle, draw=orange!90!black, line width=1.3pt, fill=orange!12, rounded corners=4pt, align=center, font=\small\bfseries, minimum height=1.05cm, text width=5.4cm},
+        sensor/.style = {rectangle, draw=teal!80!black, line width=1.1pt, fill=teal!10, rounded corners=3pt, align=center, font=\scriptsize\bfseries, minimum height=0.8cm, text width=2.2cm},
+        fwd/.style = {->, >=Stealth, line width=1.2pt, draw=blue!75!black},
+        tune/.style = {->, >=Stealth, line width=1.1pt, draw=orange!85!black},
+        fbi/.style = {->, >=Stealth, line width=1.0pt, draw=red!70!black, dashed},
+        fbw/.style = {->, >=Stealth, line width=1.0pt, draw=teal!70!black, dashed}
     ]
-        % Top: AutoTuner
-        \node[tuner] (tuner) at (3.5, 1.8) {AutoTuner};
-
-        % Middle Chain (Left to Right)
-        \node[box] (sp) at (-1.5, 0) {Speed MPC};
-        \node[box] (cc) at (1.5, 0) {CCS-MPC};
-        \node[box] (pwm) at (4.5, 0) {SVPWM};
-        \node[plant] (inv) at (7.3, 0) {Inverter};
-        \node[plant] (pmsm) at (10.1, 0) {PMSM};
+        % ================= FORWARD PATH (y = 0) =================
+        \node[ctrl] (sp) at (-2.4, 0) {Speed MPC\\{\tiny (1 kHz Discrete)}};
+        \node[ctrl] (cc) at (1.4, 0) {CCS-MPC\\{\tiny (10 kHz Current)}};
+        \node[ctrl] (pwm) at (4.9, 0) {SVPWM\\{\tiny (200 kHz Timer)}};
+        \node[plant] (inv) at (8.1, 0) {2-Level VSI\\{\tiny ($V_{dc} = 400\text{ V}$)}};
+        \node[plant] (pmsm) at (11.4, 0) {IPMSM Plant\\{\tiny (BMW i3 Machine)}};
 
         % Forward Signal Flow
-        \draw[arr] (-3.3, 0) -- node[above, font=\footnotesize\bfseries] {$\omega_{ref}$} (sp);
-        \draw[arr] (sp) -- node[above, font=\footnotesize\bfseries] {$i_{d,ref}, i_{q,ref}$} (cc);
-        \draw[arr] (cc) -- node[above, font=\footnotesize\bfseries] {$v_d^*, v_q^*$} (pwm);
-        \draw[arr] (pwm) -- node[above, font=\footnotesize\bfseries] {$S_{abc}$} (inv);
-        \draw[arr] (inv) -- node[above, font=\footnotesize\bfseries] {$i_{abc}$} (pmsm);
+        \draw[fwd] (-4.3, 0) -- node[above, font=\footnotesize\bfseries] {$\omega_{ref}$} (sp.west);
+        \draw[fwd] (sp.east) -- node[above, font=\footnotesize\bfseries] {$i_{dq,ref}$} (cc.west);
+        \draw[fwd] (cc.east) -- node[above, font=\footnotesize\bfseries] {$v_{dq}^*$} (pwm.west);
+        \draw[fwd] (pwm.east) -- node[above, font=\footnotesize\bfseries] {$S_{abc}$} (inv.west);
+        \draw[fwd] (inv.east) -- node[above, font=\footnotesize\bfseries] {$i_{abc}$} (pmsm.west);
 
-        % AutoTuner Parameter Delivery
-        \draw[tune] (tuner.west) -| node[above, near end, font=\scriptsize\bfseries] {$\hat{J}, \hat{B}$} (sp.north);
+        % ================= AUTOTUNER LAYER (y = 2.2) =================
+        \node[tuner] (tuner) at (1.4, 2.2) {\textbf{Autonomous Parameter AutoTuner}\\{\scriptsize 7.0 s Sequence: Standstill DC/AC \& Spin-Up}};
+
+        % AutoTuner Outputs: Dedicated orthogonal paths
+        \draw[tune] (tuner.west) -| node[pos=0.4, above, font=\scriptsize\bfseries] {$\hat{J}, \hat{B},\ \omega_{ref,out}$} (sp.north);
         \draw[tune] (tuner.south) -- node[right, font=\scriptsize\bfseries] {$\hat{R}_s, \hat{L}_d, \hat{L}_q, \hat{\Psi}_{PM}$} (cc.north);
-        \draw[tune] (tuner.east) -| node[above, near start, font=\scriptsize\bfseries] {\texttt{ctrl\_mode}} (pwm.north);
+        \draw[tune] (tuner.east) -| node[pos=0.4, above, font=\scriptsize\bfseries] {\texttt{ctrl\_mode} ($0/1$)} (pwm.north);
 
-        % Feedback Connections
-        \draw[fb] (pmsm.south) -- ++(0, -0.7) -| node[pos=0.25, below, font=\scriptsize\bfseries] {$\omega_m, \theta_e$} (sp.south);
-        \draw[fb] ($(inv.south)!0.5!(pmsm.south)$) -- ++(0, -0.4) -| node[pos=0.25, above, font=\scriptsize\bfseries] {$i_{abc} \rightarrow (i_d, i_q)$} (cc.south);
-        \draw[fb] (pmsm.south) -- ++(0, -1.0) -| (tuner.160);
+        % ================= SENSORY FEEDBACK TO AUTOTUNER (Top Highway: y = 3.2) =================
+        \draw[fbw] (pmsm.north) |- (11.4, 3.1) -- node[above, font=\scriptsize\bfseries] {Sensory Feedback for AutoTuning ($i_{abc}, \theta_e, \omega_m$)} (1.4, 3.1) -- (tuner.north);
+
+        % ================= CURRENT FEEDBACK (Lane 1: y = -1.3) =================
+        \node[sensor] (cp) at (1.4, -1.3) {Clarke / Park\\{\tiny Transform}};
+        \draw[fbi] (9.75, 0) |- node[pos=0.6, above, font=\scriptsize\bfseries] {Current Feedback ($i_{abc}$)} (cp.east);
+        \draw[fwd] (cp.north) -- node[right, font=\scriptsize\bfseries] {$i_d, i_q$} (cc.south);
+
+        % ================= SPEED & ANGLE FEEDBACK (Lane 2: y = -2.3) =================
+        \draw[fbw] (pmsm.south) -- (11.4, -2.3) -- node[pos=0.35, above, font=\scriptsize\bfseries] {Rotor Position ($\theta_e$)} (1.4, -2.3) -- (cp.south);
+        \draw[fbw] (1.4, -2.3) -- node[pos=0.55, above, font=\scriptsize\bfseries] {Rotor Speed ($\omega_m$)} (-2.4, -2.3) -- (sp.south);
 
     \end{tikzpicture}%
     }
-    \vspace{6mm}
+    \vspace{4mm}
     \begin{itemize}
         \small
-        \item \textbf{Control Hierarchy:} AutoTuner $\rightarrow$ Outer Speed MPC ($1\text{ kHz}$) $\rightarrow$ Inner CCS-MPC ($10\text{ kHz}$) $\rightarrow$ SVPWM ($200\text{ kHz}$) $\rightarrow$ Inverter \& PMSM.
+        \item \textbf{Decoupled Multi-Rate Architecture:} AutoTuner delivers identified motor constants prior to drive enable; Speed MPC ($1\text{ kHz}$) regulates mechanical dynamics; Inner CCS-MPC ($10\text{ kHz}$) synthesizes deadbeat voltages; SVPWM ($200\text{ kHz}$) switches the inverter with zero cross-talk.
     \end{itemize}
 \end{frame}
 

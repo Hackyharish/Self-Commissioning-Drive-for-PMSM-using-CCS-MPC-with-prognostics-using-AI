@@ -1587,9 +1587,9 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Proper Automotive Current Profile ($0 - 0.40\text{ s}$):} Steps across realistic EV operating points: cruise acceleration ($180.0\text{ A}$) $\rightarrow$ heavy acceleration ($350.0\text{ A}$, $\sim 62\%$ of $I_{max}$) $\rightarrow$ nominal cruising ($220.0\text{ A}$).
-        \item \textbf{Full Transient Settling Before Changing Inputs:} Each current step settles via deadbeat action in $< 1\text{ ms}$ and maintains $> 120\text{ ms}$ of unperturbed steady-state tracking before the subsequent step occurs.
-        \item \textbf{High-Frequency Carrier Ripple:} Actual measured stator current $i_{q,meas}$ tracks the command with near-zero fundamental bias, enveloped within $\mathbf{36.7\text{ A}_{pk-pk}}$ ($\pm 18.4\text{ A}$) ripple, strictly bounded below theoretical $\Delta I_{Lq,max} = 70.77\text{ A}_{pk-pk}$.
+        \item \textbf{100\% Maximum Rated Torque Benchmark ($0 - 0.40\text{ s}$):} Steps across full motor capability up to rated peak torque: cruising ($230.0\text{ A}, 100\text{ Nm}$) $\rightarrow$ \textbf{Maximum Rated Torque ($460.0\text{ A}, 250.0\text{ Nm}$)} $\rightarrow$ dynamic hill-climb ($360.0\text{ A}, 180\text{ Nm}$).
+        \item \textbf{Full Transient Settling Before Changing Inputs:} Each current step settles via deadbeat predictive action in $< 1\text{ ms}$ and maintains $> 120\text{ ms}$ to $140\text{ ms}$ of settled steady-state tracking before the subsequent step occurs.
+        \item \textbf{High-Frequency Carrier Ripple at Max Torque:} Even at peak rated current ($460\text{ A}$), measured $i_q$ tracks with zero fundamental offset, enveloped within $\mathbf{35.83\text{ A}_{pk-pk}}$ ($\pm 17.92\text{ A}$, $6.33\%$ of $I_{max}$) ripple, strictly bounded below theoretical $\Delta I_{Lq,max} = 70.77\text{ A}_{pk-pk}$.
     \end{itemize}
 \end{frame}
 
@@ -1600,8 +1600,8 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Zero-Centered Symmetrical Error:} Across all operating plateaus ($180\text{ A}$, $350\text{ A}$, $220\text{ A}$), tracking error $\Delta i_q = i_{q,ref} - i_{q,meas}$ oscillates symmetrically around zero with mean error $< 2.7\text{ A}$ ($< 0.8\%$ of setpoint).
-        \item \textbf{Physical Ripple Validation:} Settled peak-to-peak ripple measures $\mathbf{36.7\text{ A}_{pk-pk}}$ ($6.49\%$ of $I_{max}$), remaining comfortably within the theoretical maximum envelope $\Delta I_{Lq} = \frac{V_{dc}}{4 f_{sw} L_q} = 70.77\text{ A}_{pk-pk}$.
+        \item \textbf{Zero-Centered Symmetrical Error:} Across all plateaus including $460\text{ A}$ ($250\text{ Nm}$ peak), tracking error $\Delta i_q = i_{q,ref} - i_{q,meas}$ oscillates symmetrically around zero with mean fundamental error $< 1.5\text{ A}$ ($< 0.35\%$ of setpoint).
+        \item \textbf{Physical Ripple Validation:} Settled peak-to-peak ripple measures $\mathbf{35.83\text{ A}_{pk-pk}}$ at peak torque, confirming carrier harmonics remain strictly within the theoretical maximum envelope $\Delta I_{Lq} = \frac{V_{dc}}{4 f_{sw} L_q} = 70.77\text{ A}_{pk-pk}$.
     \end{itemize}
 \end{frame}
 
@@ -1612,8 +1612,8 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Proper MTPA Reluctance Steps ($0 - 0.40\text{ s}$):} Steps from $-30.0\text{ A} \rightarrow -100.0\text{ A} \rightarrow -50.0\text{ A}$ to generate optimal reluctance torque aligned with $q$-axis demands.
-        \item \textbf{Cross-Axis Decoupling \& Full Settling:} Direct axis settles completely with zero cross-coupling spikes during $q$-axis transitions, maintaining $> 120\text{ ms}$ of settled tracking per step.
+        \item \textbf{MTPA Reluctance Torque Allocation for Max Torque ($0 - 0.40\text{ s}$):} Steps from $-75.0\text{ A} \rightarrow \mathbf{-240.0\text{ A}} \rightarrow -165.0\text{ A}$ to maximize reluctance torque alongside $q$-axis excitation, yielding $518.8\text{ A}$ peak stator vector.
+        \item \textbf{Cross-Axis Decoupling \& Full Settling:} Direct axis settles completely in $< 1\text{ ms}$ with zero cross-coupling disturbance during $230\text{ A} \rightarrow 460\text{ A}$ torque steps, maintaining $> 120\text{ ms}$ settled tracking.
     \end{itemize}
 \end{frame}
 
@@ -1624,8 +1624,8 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Zero Fundamental DC Bias:} Mean steady-state tracking error is strictly bounded at $\approx 3.5\text{ A}$, proving deadbeat predictive current synthesis.
-        \item \textbf{Physical Saliency Verification:} Direct-axis settled ripple measures $\mathbf{74.5\text{ A}_{pk-pk}}$ ($\pm 37.3\text{ A}$), which is precisely $\approx 2\times$ the $q$-axis ripple ($36.7\text{ A}_{pk-pk}$), confirming machine electromagnetic saliency ($L_q \approx 2 L_d$, $141.3\ \mu\text{H}$ vs $71.2\ \mu\text{H}$).
+        \item \textbf{Zero Fundamental DC Bias:} Mean steady-state tracking error at max torque is bounded at $\approx 3.5\text{ A}$, verifying deadbeat predictive current synthesis even under heavy demagnetizing conditions.
+        \item \textbf{Physical Saliency Verification:} Direct-axis settled ripple measures $\mathbf{64.55\text{ A}_{pk-pk}}$ ($\pm 32.28\text{ A}$, $11.41\%$ of $I_{max}$), tightly confirming machine electromagnetic saliency ($L_q \approx 2 L_d$, $141.3\ \mu\text{H}$ vs $71.2\ \mu\text{H}$) while remaining well below $\Delta I_{Ld,max} = 140.45\text{ A}_{pk-pk}$.
     \end{itemize}
 \end{frame}
 

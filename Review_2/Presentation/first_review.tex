@@ -1142,19 +1142,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{33. AutoTuner Result: Stator Resistance ($R_s$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_Rs_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00} across the entire 8.5-second execution window.
-        \item \textbf{Stability:} Zero numerical drift or division-by-zero anomaly on embedded target.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{34. AutoTuner Result: $d$-axis Inductance ($L_d$) Estimation}
+\begin{frame}{33. AutoTuner Result: $d$-axis Inductance ($L_d$) Estimation}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_Ld_est.png}
     \vspace{1mm}
@@ -1166,19 +1154,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{35. AutoTuner Result: $d$-axis Inductance ($L_d$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_Ld_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00}.
-        \item \textbf{Verification Parity:} Proves Fourier accumulator maintains bit-level parity on embedded C target.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{36. AutoTuner Result: $q$-axis Inductance ($L_q$) Estimation}
+\begin{frame}{34. AutoTuner Result: $q$-axis Inductance ($L_q$) Estimation}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_Lq_est.png}
     \vspace{1mm}
@@ -1190,19 +1166,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{37. AutoTuner Result: $q$-axis Inductance ($L_q$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_Lq_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00}.
-        \item \textbf{Fidelity:} High-frequency injection logic executes with bit-level parity across host and SIL C-code.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{38. AutoTuner Result: PM Flux Linkage ($\Psi_{PM}$) Estimation}
+\begin{frame}{35. AutoTuner Result: PM Flux Linkage ($\Psi_{PM}$) Estimation}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_PsiPM_est.png}
     \vspace{1mm}
@@ -1214,19 +1178,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{39. AutoTuner Result: PM Flux Linkage ($\Psi_{PM}$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_PsiPM_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00}.
-        \item \textbf{Algorithm Fidelity:} Back-EMF moving average filter executes identically in Simulink and generated C-code.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{40. AutoTuner Result: Viscous Friction ($B$) Estimation}
+\begin{frame}{36. AutoTuner Result: Viscous Friction ($B$) Estimation}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_B_est.png}
     \vspace{1mm}
@@ -1238,19 +1190,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{41. AutoTuner Result: Viscous Friction ($B$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_B_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00}.
-        \item \textbf{Robustness:} Identical torque-speed ratio calculations across simulation and target executable.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{42. AutoTuner Result: Rotor Inertia ($J$) Estimation}
+\begin{frame}{37. AutoTuner Result: Rotor Inertia ($J$) Estimation}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_J_est.png}
     \vspace{1mm}
@@ -1262,19 +1202,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{43. AutoTuner Result: Rotor Inertia ($J$) SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_Error_J_est.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{0.00e+00}.
-        \item \textbf{Timing Precision:} Time integration intervals synchronize perfectly with discrete $10\text{ kHz}$ interrupt ticks.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{44. AutoTuner Result: Speed Setpoint Output ($\omega_{ref,out}$)}
+\begin{frame}{38. AutoTuner Result: Speed Setpoint Output ($\omega_{ref,out}$)}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_omega_ref_out.png}
     \vspace{1mm}
@@ -1286,7 +1214,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{45. AutoTuner: Deep Engineering Inferences}
+\begin{frame}{39. AutoTuner: Deep Engineering Inferences}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{3pt}

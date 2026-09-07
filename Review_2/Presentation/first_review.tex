@@ -1762,65 +1762,14 @@
 
 % ---------------------------------------------------
 
-\begin{frame}{71. Embedded Code Generation & Resource Profiling}
-    \centering
-    \small
-    \textbf{Target Microcontroller Resource Utilization (STM32G474RE @ $170\text{ MHz}$)}
-    \vspace{2mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.2}
-    \begin{tabular}{l c c c c}
-        \toprule
-        \textbf{Software Module} & \textbf{Flash (ROM) Footprint} & \textbf{Static RAM Footprint} & \textbf{Hardware Limit} & \textbf{Hardware Utilization} \\
-        \midrule
-        \rowcolor{blue!5} \textbf{Standalone AutoTuner} & $8.42\text{ KB}$ & $1.16\text{ KB}$ & $512\text{ KB}$ Flash / $128\text{ KB}$ RAM & $1.64\%\ \text{Flash},\ 0.91\%\ \text{RAM}$ \\
-        \textbf{Standalone CCS-MPC + SVPWM} & $14.85\text{ KB}$ & $2.42\text{ KB}$ & $512\text{ KB}$ Flash / $128\text{ KB}$ RAM & $2.90\%\ \text{Flash},\ 1.89\%\ \text{RAM}$ \\
-        \rowcolor{blue!5} \textbf{Standalone Speed MPC} & $6.21\text{ KB}$ & $0.84\text{ KB}$ & $512\text{ KB}$ Flash / $128\text{ KB}$ RAM & $1.21\%\ \text{Flash},\ 0.66\%\ \text{RAM}$ \\
-        \textbf{Combined Control Suite} & \textbf{29.48 KB} & \textbf{4.42 KB} & \textbf{512 KB Flash / 128 KB RAM} & \textbf{5.75\% Flash, 3.45\% RAM} \\
-        \bottomrule
-    \end{tabular}%
-    }
-    \vspace{3mm}
-    \begin{itemize}
-        \item \textbf{Memory Efficiency:} Entire control suite consumes $<6\%$ Flash and $<3.5\%$ SRAM.
-        \item \textbf{ANSI C99 Compliance:} MISRA-C compliant code auto-generated via Embedded Coder (\texttt{ert.tlc}).
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{72. Execution Timing Breakdown & Real-Time CPU Budget}
-    \centering
-    \small
-    \textbf{Timing Profile per $100\ \mu\text{s}$ Control Interrupt Cycle (@ $170\text{ MHz}$, $1\text{ cycle} = 5.88\text{ ns}$)}
-    \vspace{2mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.2}
-    \begin{tabular}{l c c c}
-        \toprule
-        \textbf{Control Task / ISR Component} & \textbf{Execution Time ($\mu\text{s}$)} & \textbf{CPU Cycles (@ $170\text{ MHz}$)} & \textbf{Time Budget Share (\%)} \\
-        \midrule
-        \rowcolor{blue!5} \textbf{Current MPC + SVPWM (Clarke/Park/Duty)} & $18.40\ \mu\text{s}$ & $3,130\text{ cycles}$ & $18.4\%$ \\
-        \textbf{Speed MPC (Observer + Torque Ref)} & $9.20\ \mu\text{s}$ & $1,560\text{ cycles}$ & $9.2\%$ \\
-        \rowcolor{blue!5} \textbf{AutoTuner Step (during active tuning states)} & $12.10\ \mu\text{s}$ & $2,050\text{ cycles}$ & $12.1\%$ \\
-        \textbf{Worst-Case Combined Control Loop} & \textbf{27.60 $\mu$s} & \textbf{4,690 cycles} & \textbf{27.6\%} \\
-        \rowcolor{blue!5} \textbf{Available CPU Headroom for RTOS \& Telemetry} & \textbf{72.40 $\mu$s} & \textbf{12,310 cycles} & \textbf{72.4\%} \\
-        \bottomrule
-    \end{tabular}%
-    }
-    \vspace{3mm}
-    \begin{itemize}
-        \item \textbf{Low Latency:} Complete control calculation finishes in $<28\ \mu\text{s}$, well within the $100\ \mu\text{s}$ interrupt window.
-        \item \textbf{Generous Headroom:} Over $72\%$ CPU capacity remains available for CAN bus communication and diagnostics.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{73. Hardware-in-the-Loop (HIL) Testbed & Review-3 Roadmap}
+\begin{frame}{71. Hardware-in-the-Loop (HIL) Testbed & Review-3 Roadmap}
     \begin{itemize}
         \item \textbf{Review-2 Milestones Successfully Achieved:}
         \begin{itemize}
             \item \textbf{Modularization:} 3 standalone models configured and tested ($5\ \mu\text{s}$ base, $10\text{ kHz}$ loop).
             \item \textbf{MIL/SIL Parity:} $0.00\text{e+}00$ error across all physical parameters and PWM switching pulses.
             \item \textbf{Operating Envelope:} Analytically derived and mapped MTPA, MTPV, and field-weakening trajectories.
-            \item \textbf{Code Generation:} Verified C99 footprint ($<6\%$ Flash, $<28\%$ CPU load on STM32G474RE).
+            \item \textbf{Code Generation:} ANSI C99 production code generated via Embedded Coder and verified in SIL co-simulation.
         \end{itemize}
         \item \textbf{Review-3 Execution Roadmap:}
         \begin{itemize}
@@ -1832,7 +1781,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{74. Master Verification Summary: Complete MIL vs. SIL Equivalence}
+\begin{frame}{72. Master Verification Summary: Complete MIL vs. SIL Equivalence}
     \centering
     \footnotesize
     \textbf{Summary of All Verified Signals across Standalone Modules \& Tracking Loops ($T_s = 5\ \mu\text{s}$, Rate = $10\text{ kHz}$)}

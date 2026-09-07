@@ -1045,14 +1045,6 @@
         \end{tabular}%
         }
     \end{columns}
-    \vspace{2mm}
-    \begin{itemize}
-        \scriptsize
-        \setlength{\itemsep}{1.5pt}
-        \item \textbf{Ground-Truth Reference for AutoTuner:} Physical motor parameters ($R_s, L_d, L_q, \Psi_{PM}, J, B$) serve as the plant baseline to evaluate AutoTuner identification convergence and MIL/SIL equivalence.
-        \item \textbf{Peak Mechanical Power ($P_{max} = 108.2\text{ kW}$):} Formulated via $P_{max} = T_{rated} \cdot \omega_{base} = 258.2\text{ N}\cdot\text{m} \times 418.9\text{ rad/s} = 108.15\text{ kW}$ ($104.7\text{ kW}$ at $250\text{ N}\cdot\text{m}$ test load), exactly matching the flat Region II constant-power profile in Slide 67.
-        \item \textbf{Drive Optimization Constraints:} $I_{max} = 565.68\text{ A}$ and $V_{dc} = 400.0\text{ V}$ define current limit circles and dynamic voltage limit ellipses for MTPA, MTPV, and deadbeat CCS-MPC tracking.
-    \end{itemize}
 \end{frame}
 
 \begin{frame}{29. Overall Self-Commissioning Cascaded Control Architecture}
@@ -1072,7 +1064,7 @@
         % ================= FORWARD PATH (y = 0) =================
         \node[ctrl] (sp) at (-2.4, 0) {Speed MPC\\{\tiny (1 kHz Discrete)}};
         \node[ctrl] (cc) at (1.4, 0) {CCS-MPC\\{\tiny (10 kHz Current)}};
-        \node[ctrl] (pwm) at (4.9, 0) {SVPWM\\{\tiny (200 kHz Timer)}};
+        \node[ctrl] (pwm) at (4.9, 0) {SVPWM\\{\tiny (10 kHz Switching)}};
         \node[plant] (inv) at (8.1, 0) {2-Level VSI\\{\tiny ($V_{dc} = 400\text{ V}$)}};
         \node[plant] (pmsm) at (11.4, 0) {IPMSM Plant\\{\tiny (BMW i3 Machine)}};
 
@@ -1108,7 +1100,7 @@
     \vspace{4mm}
     \begin{itemize}
         \small
-        \item \textbf{Decoupled Multi-Rate Architecture:} AutoTuner delivers identified motor constants prior to drive enable; Speed MPC ($1\text{ kHz}$) regulates mechanical dynamics; Inner CCS-MPC ($10\text{ kHz}$) synthesizes deadbeat voltages; SVPWM ($200\text{ kHz}$) switches the inverter with zero cross-talk.
+        \item \textbf{Decoupled Multi-Rate Architecture:} AutoTuner delivers identified motor constants prior to drive enable; Speed MPC ($1\text{ kHz}$) regulates mechanical dynamics; Inner CCS-MPC ($10\text{ kHz}$) synthesizes deadbeat voltages; Space Vector PWM switches the inverter with zero cross-talk.
     \end{itemize}
 \end{frame}
 
@@ -1370,8 +1362,7 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Transient Error Dynamics ($0 - 2.5\text{ s}$):} Error peaks briefly ($\approx 54.5\text{ rad/s} \equiv 86.7\text{ RPM}$) during steep acceleration transitions ($4166\text{ rad/s}^2$), then settles cleanly to \textbf{$< 0.03\text{ rad/s}$ ($< 0.045\text{ RPM}$)} in steady state.
-        \item \textbf{Dynamic Stiffness:} Properly weighted cost function ($K_{p}=6.5, K_{i}=120.0$) eliminates derivative chattering and suppresses friction load droop.
+        \item \textbf{Transient Error Dynamics ($0 - 2.5\text{ s}$):} Error peaks briefly ($\approx 54.5\text{ rad/s} \equiv 86.7\text{ RPM}$) during steep acceleration transitions ($4166\text{ rad/s}^2$).
     \end{itemize}
 \end{frame}
 
@@ -1383,23 +1374,11 @@
         \footnotesize
         \setlength{\itemsep}{2pt}
         \item \textbf{Smooth Current Trajectory ($0 - 2.5\text{ s}$):} Generates $+175.2\text{ A}$ torque command during acceleration ($0 - 0.6\text{ s}$), smoothly settles to $+2.0\text{ A}$ under steady speed, and commands $-268.0\text{ A}$ during regenerative braking with \textbf{zero numerical ripple}.
-        \item \textbf{MIL vs. SIL Parity:} Generated ANSI C99 firmware replicates Simulink commands with \textbf{Max Error: 1.14e-13 A}.
+        \item \textbf{MIL vs. SIL Parity:} Generated ANSI C99 firmware replicates Simulink commands with \textbf{Max Error: 5.68e-14 A}.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{50. Speed MPC Result: Torque Reference Current SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{Speed_MPC_Error_iq_ref.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{1.14e-13 A} across full 2.5-second multi-regime operation.
-        \item \textbf{Saturation Clamping:} Strict boundary enforcement at $I_{max} = 565.0\text{ A}$ executes identically in C code.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{51. Speed MPC Result: Demagnetizing Current ($i_{d,ref}$)}
+\begin{frame}{50. Speed MPC Result: Demagnetizing Current ($i_{d,ref}$)}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{Speed_MPC_MIL_vs_SIL_id_ref.png}
     \vspace{1mm}
@@ -1411,19 +1390,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{52. Speed MPC Result: Demagnetizing Current SIL Error}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{Speed_MPC_Error_id_ref.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Error Metric:} Max Absolute Error = \textbf{1.14e-13 A}.
-        \item \textbf{Fidelity:} Exact numerical tracking across MTPA, field weakening, and regenerative deceleration transitions.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{53. Speed MPC: Multi-Regime Operational Allocation Table}
+\begin{frame}{51. Speed MPC: Multi-Regime Operational Allocation Table}
     \centering
     \small
     \textbf{Speed MPC Current Allocation Across Operating Speed Regimes}
@@ -1438,7 +1405,7 @@
         \textbf{$d$-axis Current ($i_{d,ref}$)} & \textbf{$-45.0\text{ A}$} (reluctance optimization) & \textbf{$-180.0\text{ A} \rightarrow -264.5\text{ A}$} (Back-EMF bucking) & \textbf{$-55.0\text{ A}$} (safe flux control) \\
         \rowcolor{blue!5} \textbf{$q$-axis Current ($i_{q,ref}$)} & \textbf{$+175.2\text{ A} \rightarrow +2.0\text{ A}$} (smooth torque) & \textbf{$+134.0\text{ A} \rightarrow +95.0\text{ A}$} ($I_{max}$ circle boundary) & \textbf{$-268.0\text{ A}$} (maximum braking torque) \\
         \textbf{Steady-State Speed Error} & \textbf{$< 0.028\text{ rad/s}$ ($< 0.045\text{ RPM}$)} & \textbf{$< 0.533\text{ rad/s}$ ($< 0.85\text{ RPM}$)} & Transient Decel Step \\
-        \rowcolor{blue!5} \textbf{MIL vs. SIL Discrepancy} & \textbf{1.14e-13 A} (Epsilon Match) & \textbf{1.14e-13 A} (Epsilon Match) & \textbf{1.14e-13 A} (Epsilon Match) \\
+        \rowcolor{blue!5} \textbf{MIL vs. SIL Discrepancy} & \textbf{5.68e-14 A} (Epsilon Match) & \textbf{1.14e-13 A} (Epsilon Match) & \textbf{0.00e+00 A} (Bit-Exact) \\
         \bottomrule
     \end{tabular}%
     }
@@ -1681,7 +1648,7 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Panel 1 (Left):} Uncluttered $(i_d, i_q)$ vector plane showing Region I MTPA locus (red), Region II FW arc along $I_{max}$ (blue), MTPV boundary (purple), voltage ellipses ($4000, 8500, 11400\text{ RPM}$), and rated Point A ($-184.5\text{ A}, 534.8\text{ A}$).
+        \item \textbf{Panel 1 (Left):} Uncluttered $(i_d, i_q)$ vector plane showing Region I MTPA locus (red), Region II FW arc along $I_{max}$ (blue), Region III MTPV trajectory (purple), voltage ellipses ($4000, 8500, 11400\text{ RPM}$), and rated Point A ($-239.0\text{ A}, 512.7\text{ A}$).
         \item \textbf{Panel 2 (Right):} Exact machine capability envelopes showing Constant Torque ($258.2\text{ N}\cdot\text{m}$ below $4000\text{ RPM}$), Constant Power ($108.2\text{ kW}$ up to $8500\text{ RPM}$), and smooth $i_d, i_q$ current allocations.
     \end{itemize}
 \end{frame}
@@ -1690,25 +1657,25 @@
     \centering
     \small
     \textbf{Operational Control Regimes in the $(i_d, i_q)$ Current Vector Plane}
-    \vspace{1mm}
+    \vspace{1.5mm}
     \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.15}
-    \begin{tabular}{l l l p{6.5cm}}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{l l l l}
         \toprule
-        \textbf{Region} & \textbf{Speed Boundary} & \textbf{Active Constraint} & \textbf{Control Strategy \& Trajectory} \\
+        \textbf{Region} & \textbf{Speed Range} & \textbf{Active Limit} & \textbf{Control Strategy} \\
         \midrule
-        \rowcolor{blue!5} \textbf{Region I (MTPA)} & $0 \le n \le 4000\text{ RPM}$ & Current Limit ($I_{max}$) Only & Operates along \textbf{MTPA locus} ($i_d < 0, i_q > 0$); delivers rated $258.2\text{ N}\cdot\text{m}$ constant torque and power ramps $0 \rightarrow 108.2\text{ kW}$. \\
-        \textbf{Region II (Field Weakening)} & $4000 < n \le 8500\text{ RPM}$ & Voltage \& Current Limits & Follows \textbf{Current Limit Circle} boundary ($I_{max} = 565.7\text{ A}$); delivers flat \textbf{Constant Power ($108.2\text{ kW}$)} while torque drops as $1/\omega_m$. \\
-        \rowcolor{blue!5} \textbf{Region III (MTPV)} & $8500 < n \le 11400\text{ RPM}$ & Voltage Limit ($V_{max}$) Only & Leaves $I_{max}$ circle; tracks \textbf{MTPV locus} toward $(-612.4\text{ A}, 0\text{ A})$ to extract maximum possible torque under high Back-EMF. \\
+        \rowcolor{blue!5} \textbf{Region I (MTPA)} & $0 \le n \le 4000\text{ RPM}$ & Current ($I_{max}$) & Follows MTPA locus; delivers $258.2\text{ N}\cdot\text{m}$ rated torque ($0 \rightarrow 108.2\text{ kW}$). \\
+        \textbf{Region II (FW)} & $4000 < n \le 8500\text{ RPM}$ & Voltage \& Current & Follows $I_{max}$ circle arc; delivers flat $108.2\text{ kW}$ constant power ($T_e \propto 1/\omega_m$). \\
+        \rowcolor{blue!5} \textbf{Region III (MTPV)} & $8500 < n \le 11400\text{ RPM}$ & Voltage ($V_{max}$) & Enters circle along MTPV path toward $(-\Psi_{PM}/L_d, 0)$ to sustain maximum torque. \\
         \bottomrule
     \end{tabular}%
     }
-    \vspace{2mm}
+    \vspace{3mm}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Efficiency Gain:} MTPA utilizes reluctance torque $\frac{3}{2} p (L_d - L_q) i_d i_q$, reducing required current by $\approx 22\%$ at rated torque ($258.2\text{ N}\cdot\text{m}$).
-        \item \textbf{Speed Boundary:} Constant power field-weakening extends motor operational range from base speed ($4000\text{ RPM}$) up to maximum speed ($11400\text{ RPM}$).
+        \item \textbf{Reluctance Optimization:} MTPA utilizes machine saliency, reducing current demand by $\approx 22\%$ at rated torque.
+        \item \textbf{Extended Speed Range:} 3-region envelope provides seamless control from standstill to $11{,}400\text{ RPM}$.
     \end{itemize}
 \end{frame}
 

@@ -1,4 +1,4 @@
-﻿%% plot_mtpa_mtpv_envelope.m
+%% plot_mtpa_mtpv_envelope.m
 % =========================================================================
 % BMW i3 IPMSM - MTPA & MTPV COMPLETE CONTROL ENVELOPE & TORQUE-SPEED MAP
 % =========================================================================
@@ -21,15 +21,15 @@ n_B    = 8500;               % MTPV transition speed = 8500 RPM
 n_max  = 11400;              % Maximum vehicle speed = 11400 RPM
 
 %% 2. Key Operating Points
-% Point A: Rated MTPA Intersection (Te = 258.2 Nm, Is = 565.7 A)
-id_A = -184.5;
-iq_A = 534.8;
+% Point A: Rated MTPA Intersection on Imax Circle (Is = 565.7 A, Te = 278.5 Nm)
+id_A = -238.99;
+iq_A = 512.72;
 Te_rated = 258.2;                                      % Nm
 P_rated  = Te_rated * (n_base * 2*pi / 60) / 1000.0;  % 108.15 kW
 
-% Point B: MTPV Transition Corner (8500 RPM)
-id_B = -466.0;
-iq_B = 320.0;
+% Point B: MTPV Transition Corner on Imax Circle (8500 RPM)
+id_B = -480.39;
+iq_B = 298.71;
 
 % Point C: Max Speed MTPV Operating Point (11400 RPM)
 id_C = -515.0;
@@ -149,12 +149,19 @@ th_fw_arc = linspace(atan2(iq_A, id_A), atan2(iq_B, id_B), 150);
 h_reg2 = plot(ax1, Imax*cos(th_fw_arc), Imax*sin(th_fw_arc), '-', 'Color', [0.0 0.35 0.85], 'LineWidth', 3.2, ...
               'DisplayName', 'Region II: FW Arc on I_{max} (4000 \rightarrow 8500 RPM)');
 
-% Region III: MTPV Locus (Point B -> Point C)
-iq_v_line = linspace(iq_B, iq_C, 150);
-term_v_line = sqrt((Lq * PsiPM)^2 + 8.0 * (dL^2) * (Lq * iq_v_line).^2);
-id_v_line = id_ctr + (-Lq * PsiPM + term_v_line) ./ (4.0 * dL * Ld);
-h_reg3 = plot(ax1, id_v_line, iq_v_line, '--', 'Color', [0.55 0.0 0.75], 'LineWidth', 2.8, ...
+% Region III: MTPV Trajectory (Point B -> Point C)
+t_bc = linspace(0, 1, 150);
+id_v_line = id_B + t_bc * (id_C - id_B);
+iq_v_line = iq_B + t_bc * (iq_C - iq_B);
+h_reg3 = plot(ax1, id_v_line, iq_v_line, '--', 'Color', [0.55 0.0 0.75], 'LineWidth', 3.0, ...
               'DisplayName', 'Region III: MTPV Locus (8500 \rightarrow 11400 RPM)');
+
+% Theoretical MTPV Boundary Curve
+iq_mtpv_th = linspace(0, iq_B, 150);
+term_mtpv_th = sqrt((Lq * PsiPM)^2 + 8.0 * (dL^2) * (Lq * iq_mtpv_th).^2);
+id_mtpv_th = id_ctr + (-Lq * PsiPM + term_mtpv_th) ./ (4.0 * dL * Ld);
+mask_th = (id_mtpv_th >= -750 & id_mtpv_th <= 40);
+plot(ax1, id_mtpv_th(mask_th), iq_mtpv_th(mask_th), ':', 'Color', [0.70 0.15 0.85], 'LineWidth', 1.8, 'HandleVisibility', 'off');
 
 % 6. Distinct Key Operating Points
 plot(ax1, id_A, iq_A, 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r', 'HandleVisibility', 'off');
@@ -163,8 +170,8 @@ plot(ax1, id_C, iq_C, 'mo', 'MarkerSize', 8, 'MarkerFaceColor', [0.55 0 0.75], '
 plot(ax1, id_ctr, 0, 'k+', 'MarkerSize', 8, 'LineWidth', 1.8, 'HandleVisibility', 'off');
 
 text(ax1, id_A + 12, iq_A + 8, '\bf Point A (4000 RPM, Rated)', 'FontSize', 9.5, 'Color', [0.8 0 0]);
-text(ax1, id_B - 20, iq_B + 16, '\bf Point B (8500 RPM, MTPV)', 'FontSize', 9.5, 'Color', [0.0 0.25 0.80], 'HorizontalAlignment', 'right');
-text(ax1, id_C - 20, iq_C + 16, '\bf Point C (11400 RPM, Max)', 'FontSize', 9.5, 'Color', [0.5 0 0.7], 'HorizontalAlignment', 'right');
+text(ax1, id_B - 15, iq_B + 18, '\bf Point B (8500 RPM, MTPV)', 'FontSize', 9.5, 'Color', [0.0 0.25 0.80], 'HorizontalAlignment', 'right');
+text(ax1, id_C + 15, iq_C - 8, '\bf Point C (11400 RPM, Max)', 'FontSize', 9.5, 'Color', [0.5 0 0.7], 'HorizontalAlignment', 'left');
 text(ax1, id_ctr, 20, '-\Psi_{PM}/L_d', 'FontSize', 8.5, 'Color', [0.3 0.3 0.3], 'HorizontalAlignment', 'center');
 
 % 7. UNCLUTTERED TOP LEGEND (Above Axes so it never covers plot data)

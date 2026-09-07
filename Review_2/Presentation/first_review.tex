@@ -998,6 +998,62 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{28a. Benchmark Motor Parameters: BMW i3 Traction IPMSM}
+    \vspace{-1mm}
+    \begin{columns}[T]
+        \column{0.50\textwidth}
+        \textbf{\footnotesize Electrical Machine Parameters} \\
+        \vspace{1mm}
+        \resizebox{\linewidth}{!}{%
+        \renewcommand{\arraystretch}{1.18}
+        \begin{tabular}{llc}
+            \toprule
+            \textbf{Parameter Name} & \textbf{Symbol} & \textbf{Nominal Value} \\
+            \midrule
+            \rowcolor{blue!5} Stator Resistance & $R_s$ & $5.30\text{ m}\Omega\ (0.0053\ \Omega)$ \\
+            $d$-axis Inductance & $L_d$ & $71.20\ \mu\text{H}\ (0.0712\text{ mH})$ \\
+            \rowcolor{blue!5} $q$-axis Inductance & $L_q$ & $141.30\ \mu\text{H}\ (0.1413\text{ mH})$ \\
+            Saliency Ratio & $\xi = L_q/L_d$ & $1.984\approx 2.0$ (High Saliency) \\
+            \rowcolor{blue!5} PM Flux Linkage & $\Psi_{PM}$ & $0.0436\text{ Wb}\ (43.6\text{ mWb})$ \\
+            Pole Pairs & $p$ & $6$ ($12\text{ poles}$) \\
+            \rowcolor{blue!5} Torque Constant & $K_t$ & $0.3924\text{ N}\cdot\text{m/A}$ \\
+            Rotor Inertia & $J$ & $0.0867\text{ kg}\cdot\text{m}^2$ \\
+            \rowcolor{blue!5} Viscous Friction & $B$ & $0.001\text{ N}\cdot\text{m}\cdot\text{s/rad}$ \\
+            \bottomrule
+        \end{tabular}%
+        }
+
+        \column{0.50\textwidth}
+        \textbf{\footnotesize Operational Ratings \& Inverter Interface} \\
+        \vspace{1mm}
+        \resizebox{\linewidth}{!}{%
+        \renewcommand{\arraystretch}{1.18}
+        \begin{tabular}{llc}
+            \toprule
+            \textbf{Specification} & \textbf{Symbol} & \textbf{Rated Limit} \\
+            \midrule
+            \rowcolor{blue!5} Rated Mechanical Power & $P_{rated}$ & $125\text{ kW}\ (170\text{ hp})$ \\
+            Maximum Peak Torque & $T_{max}$ & $250.0\text{ N}\cdot\text{m}$ (Tested $100\%$) \\
+            \rowcolor{blue!5} Base Operating Speed & $n_{base}$ & $4{,}000\text{ RPM}\ (418.9\text{ rad/s})$ \\
+            Maximum FW Speed & $n_{max}$ & $11{,}400\text{ RPM}\ (1193.8\text{ rad/s})$ \\
+            \rowcolor{blue!5} Peak Phase Current & $I_{max}$ & $565.68\text{ A}\ (400.0\text{ A}_{rms})$ \\
+            Nominal DC Bus Voltage & $V_{dc}$ & $400.0\text{ V}$ \\
+            \rowcolor{blue!5} Inverter Switching Freq. & $f_{sw}$ & $10.0\text{ kHz}\ (T_{sw} = 100\ \mu\text{s})$ \\
+            Control Sample Time & $T_{s,ctrl}$ & $100\ \mu\text{s}\ (10\text{ kHz})$ \\
+            \rowcolor{blue!5} Simulation Base Step & $T_{s,sim}$ & $5\ \mu\text{s}\ (200\text{ kHz})$ \\
+            \bottomrule
+        \end{tabular}%
+        }
+    \end{columns}
+    \vspace{2mm}
+    \begin{itemize}
+        \scriptsize
+        \setlength{\itemsep}{1.5pt}
+        \item \textbf{Ground-Truth Reference for AutoTuner:} Physical motor parameters ($R_s, L_d, L_q, \Psi_{PM}, J, B$) serve as the plant baseline to evaluate AutoTuner identification convergence and MIL/SIL equivalence.
+        \item \textbf{Drive Optimization Constraints:} $I_{max} = 565.68\text{ A}$ and $V_{dc} = 400.0\text{ V}$ define current limit circles and dynamic voltage limit ellipses for MTPA, MTPV, and deadbeat CCS-MPC tracking.
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{29. Overall Self-Commissioning Cascaded Control Architecture}
     \centering
     \vspace{2mm}

@@ -1032,7 +1032,7 @@
             \toprule
             \textbf{Specification} & \textbf{Symbol} & \textbf{Rated Limit} \\
             \midrule
-            \rowcolor{blue!5} Rated Mechanical Power & $P_{rated}$ & $125\text{ kW}\ (170\text{ hp})$ \\
+            \rowcolor{blue!5} Maximum Mechanical Power & $P_{max}$ & $108.2\text{ kW}$ ($104.7\text{ kW}$ @ $250\text{ Nm}$) \\
             Maximum Peak Torque & $T_{max}$ & $250.0\text{ N}\cdot\text{m}$ (Tested $100\%$) \\
             \rowcolor{blue!5} Base Operating Speed & $n_{base}$ & $4{,}000\text{ RPM}\ (418.9\text{ rad/s})$ \\
             Maximum FW Speed & $n_{max}$ & $11{,}400\text{ RPM}\ (1193.8\text{ rad/s})$ \\
@@ -1050,6 +1050,7 @@
         \scriptsize
         \setlength{\itemsep}{1.5pt}
         \item \textbf{Ground-Truth Reference for AutoTuner:} Physical motor parameters ($R_s, L_d, L_q, \Psi_{PM}, J, B$) serve as the plant baseline to evaluate AutoTuner identification convergence and MIL/SIL equivalence.
+        \item \textbf{Peak Mechanical Power ($P_{max} = 108.2\text{ kW}$):} Formulated via $P_{max} = T_{rated} \cdot \omega_{base} = 258.2\text{ N}\cdot\text{m} \times 418.9\text{ rad/s} = 108.15\text{ kW}$ ($104.7\text{ kW}$ at $250\text{ N}\cdot\text{m}$ test load), exactly matching the flat Region II constant-power profile in Slide 67.
         \item \textbf{Drive Optimization Constraints:} $I_{max} = 565.68\text{ A}$ and $V_{dc} = 400.0\text{ V}$ define current limit circles and dynamic voltage limit ellipses for MTPA, MTPV, and deadbeat CCS-MPC tracking.
     \end{itemize}
 \end{frame}

@@ -1390,33 +1390,6 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{51. Speed MPC: Multi-Regime Operational Allocation Table}
-    \centering
-    \small
-    \textbf{Speed MPC Current Allocation Across Operating Speed Regimes}
-    \vspace{2mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.2}
-    \begin{tabular}{l c c c}
-        \toprule
-        \textbf{Speed Control Metric} & \textbf{Base Speed Region ($0 - 2500\text{ rad/s}$)} & \textbf{Field-Weakening ($2500 - 5500\text{ rad/s}$)} & \textbf{Regenerative Braking ($5500 \rightarrow 1500\text{ rad/s}$)} \\
-        \midrule
-        \rowcolor{blue!5} \textbf{Control Mode} & Maximum Torque Per Ampere (MTPA) & Voltage-Constrained Flux Weakening & High-Speed MTPV / Regen Decel \\
-        \textbf{$d$-axis Current ($i_{d,ref}$)} & \textbf{$-45.0\text{ A}$} (reluctance optimization) & \textbf{$-180.0\text{ A} \rightarrow -264.5\text{ A}$} (Back-EMF bucking) & \textbf{$-55.0\text{ A}$} (safe flux control) \\
-        \rowcolor{blue!5} \textbf{$q$-axis Current ($i_{q,ref}$)} & \textbf{$+175.2\text{ A} \rightarrow +2.0\text{ A}$} (smooth torque) & \textbf{$+134.0\text{ A} \rightarrow +95.0\text{ A}$} ($I_{max}$ circle boundary) & \textbf{$-268.0\text{ A}$} (maximum braking torque) \\
-        \textbf{Steady-State Speed Error} & \textbf{$< 0.028\text{ rad/s}$ ($< 0.045\text{ RPM}$)} & \textbf{$< 0.533\text{ rad/s}$ ($< 0.85\text{ RPM}$)} & Transient Decel Step \\
-        \rowcolor{blue!5} \textbf{MIL vs. SIL Discrepancy} & \textbf{5.68e-14 A} (Epsilon Match) & \textbf{1.14e-13 A} (Epsilon Match) & \textbf{0.00e+00 A} (Bit-Exact) \\
-        \bottomrule
-    \end{tabular}%
-    }
-    \vspace{3mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Dynamic Demagnetization:} In MTPA, $i_d$ is minimized purely for reluctance torque; in Field-Weakening, $i_d$ is driven significantly deeper negative to cancel rotor flux $\Psi_{PM}$ and stay within $V_{max} = 230.94\text{ V}$.
-        \item \textbf{Ripple-Free Formulation:} Direct analytical MTPA/FW solver eliminates numerical iteration noise and current chattering.
-    \end{itemize}
-\end{frame}
 
 % ---------------------------------------------------
 % SECTION 3: STANDALONE CCS-MPC CURRENT CONTROLLER

@@ -1647,33 +1647,6 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{69. CCS-MPC: Current & Voltage Tracking Performance Metrics}
-    \centering
-    \small
-    \textbf{Dynamic Performance Metrics under Dynamic Torque Loading (Up to $250\text{ N}\cdot\text{m}$ Max Torque)}
-    \vspace{1mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.15}
-    \begin{tabular}{l c c c c}
-        \toprule
-        \textbf{Performance Metric} & \textbf{$d$-axis Current ($i_d$)} & \textbf{$q$-axis Current ($i_q$)} & \textbf{Direct Voltage ($v_d$)} & \textbf{Quadrature Voltage ($v_q$)} \\
-        \midrule
-        \rowcolor{blue!5} \textbf{Theoretical Ripple Bound ($\Delta I_L$)} & \textbf{140.45 A$_{pk-pk}$} & \textbf{70.77 A$_{pk-pk}$} & N/A & N/A \\
-        \textbf{Measured Inverter Ripple} & \textbf{64.55 A$_{pk-pk}$} ($\pm 32.3\text{ A}$) & \textbf{35.83 A$_{pk-pk}$} ($\pm 17.9\text{ A}$) & $\pm 12.5\text{ V}$ band & $\pm 18.2\text{ V}$ band \\
-        \rowcolor{blue!5} \textbf{Fundamental Steady-State Mean Error} & \textbf{$< 3.5\text{ A}$ ($< 1.5\%$)} & \textbf{$< 1.5\text{ A}$ ($< 0.35\%$)} & Carrier-Filtered & Carrier-Filtered \\
-        \textbf{MIL vs. SIL Absolute Parity} & \textbf{0.00e+00 A} & \textbf{0.00e+00 A} & \textbf{0.00e+00 V} & \textbf{0.00e+00 V} \\
-        \rowcolor{blue!5} \textbf{Gate Switching Equivalence ($S_{abc}$)} & \textbf{Bit-Exact Match} & \textbf{Bit-Exact Match} & \textbf{Bit-Exact Match} & \textbf{Bit-Exact Match} \\
-        \bottomrule
-    \end{tabular}%
-    }
-    \vspace{2mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{Deadbeat Regulation:} Settles current step reference within 1 discrete sample period ($100\ \mu\text{s}$) with zero cross-axis coupling.
-        \item \textbf{Saliency Confirmation:} Direct-axis ripple ($64.55\text{ A}_{pk-pk}$) vs quadrature-axis ripple ($35.83\text{ A}_{pk-pk}$) accurately tracks the machine inverse inductance ratio ($L_q / L_d = 1.98$).
-    \end{itemize}
-\end{frame}
 
 \begin{frame}{70. CCS-MPC: Deep Engineering Inferences}
     \begin{itemize}

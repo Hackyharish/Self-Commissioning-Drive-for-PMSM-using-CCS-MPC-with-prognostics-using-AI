@@ -580,7 +580,7 @@
     \end{columns}
     \vspace{2mm}
     \begin{itemize}
-        \item \textbf{Speed Response:} The FOC speed response settles around the $200\text{ rad/s}$ reference after an initial overshoot, with steady switching action from the SVPWM stage.
+        \item \textbf{Speed Response:} The FOC speed response settles around the $318.3\text{ RPM}$ reference ($200\text{ rad/s}$ electrical) after an initial overshoot, with steady switching action from the SVPWM stage.
     \end{itemize}
 \end{frame}
 
@@ -746,7 +746,7 @@
     \end{columns}
     \vspace{2mm}
     \begin{itemize}
-        \item \textbf{Tight Speed Regulation:} The CCS-MPC speed loop reaches $200\text{ rad/s}$ reference quickly and settles into a tight steady-state band with regular 3-phase switching.
+        \item \textbf{Tight Speed Regulation:} The CCS-MPC speed loop reaches $318.3\text{ RPM}$ reference ($200\text{ rad/s}$ electrical) quickly and settles into a tight steady-state band with regular 3-phase switching.
     \end{itemize}
 \end{frame}
 
@@ -763,7 +763,7 @@
 
 \begin{frame}{20. FOC vs CCS-MPC: Varying Load Comparison}
     \centering
-    \footnotesize\textbf{Summary Table (Base Torque = -250 Nm, Speed = 800 rad/s, Sim Time = 0.6s)}
+    \footnotesize\textbf{Summary Table (Base Torque = -250 Nm, Speed = 1273.2 RPM (800 rad/s electrical), Sim Time = 0.6s)}
     \vspace{1mm}
 
     \renewcommand{\arraystretch}{0.95}
@@ -819,7 +819,7 @@
         \setlength{\parskip}{0pt}
         \item \textbf{Vastly Superior Current Tracking:} Across all load conditions, CCS-MPC suppresses $I_q$ ripple by a massive margin. At 100\% load, $I_q$ ripple is reduced by \textbf{$3.14\times$} (89.20 A vs 280.24 A), proving the analytic deadbeat optimizer isolates electrical noise far better than cascaded PI loops.
         \item \textbf{Major Torque Ripple Suppression:} Torque ripple is strictly minimized across the entire torque envelope. At 80\% load, CCS-MPC reduces torque ripple by \textbf{$3.49\times$} (9.26 Nm vs 32.28 Nm), which directly eliminates acoustic whine and reduces gearbox torsional wear.
-        \item \textbf{Superior Speed Regulation \& Lower Overshoot:} Across all operating loads, CCS-MPC maintains speed overshoot below \textbf{$0.17\%$} (801.3 rad/s max), whereas FOC exhibits up to \textbf{$0.97\%$} overshoot (807.8 rad/s peak).
+        \item \textbf{Superior Speed Regulation \& Lower Overshoot:} Across all operating loads, CCS-MPC maintains speed overshoot below \textbf{$0.17\%$} (1275.3 RPM max), whereas FOC exhibits up to \textbf{$0.97\%$} overshoot (1285.7 RPM peak).
         \item \textbf{Dramatic THD Reduction:} At 100\% load, current THD is reduced by over \textbf{$13\times$} ($1.00\%$ for CCS-MPC vs $13.33\%$ for FOC), significantly lowering stator harmonic copper losses and thermal rise.
         \item \textbf{Zero Manual Gain Tuning:} Achieving these high-stability current and torque margins requires zero manual PI gain calibration; the controller synthesizes deadbeat voltages directly from identified machine parameters ($\hat{R}_s, \hat{L}_d, \hat{L}_q, \hat{\Psi}_{PM}$).
     \end{itemize}
@@ -854,7 +854,7 @@
     \begin{itemize}
         \item \textbf{Permanent Magnet Flux Linkage ($\hat{\Psi}_{PM}$) via High-Speed Coast-Down:}
         \begin{itemize}
-            \item Spins motor open-loop past minimum threshold speed $\omega_{min} = 800\text{ rad/s}$ electrical.
+            \item Spins motor open-loop past minimum threshold speed $\omega_{min} = 1273.2\text{ RPM}$ ($800\text{ rad/s}$ electrical).
             \item Sets stator current commands to zero ($i_d = 0, i_q = 0$) and captures pure Back-EMF:
             \begin{equation}
                 \hat{\Psi}_{PM} = \frac{1}{N}\sum_{k=1}^N \frac{v_q(k)}{\omega_e(k)} \quad (N = 4000\text{ samples})
@@ -862,7 +862,7 @@
         \end{itemize}
         \item \textbf{Viscous Friction Coefficient ($\hat{B}$) via Two-Point Speed Settling:}
         \begin{itemize}
-            \item Regulates closed-loop mechanical speeds to $\omega_1 = 60\text{ rad/s}$ and $\omega_2 = 120\text{ rad/s}$ with strict $1.5\text{ s}$ settling timers.
+            \item Regulates closed-loop mechanical speeds to $\omega_1 = 573\text{ RPM}$ and $\omega_2 = 1146\text{ RPM}$ ($60\text{ rad/s}$ and $120\text{ rad/s}$) with strict $1.5\text{ s}$ settling timers.
             \item Evaluates differential electromagnetic torque to eliminate load offsets:
             \begin{equation}
                 \hat{B} = \frac{|\bar{T}_{e,2} - \bar{T}_{e,1}|}{|\bar{\omega}_{m,2} - \bar{\omega}_{m,1}|} \quad \text{where } \bar{T}_e = \frac{3}{2} p \hat{\Psi}_{PM} \bar{I}_{q,cmd}
@@ -932,11 +932,11 @@
         \item \textbf{Supervisory Timing \& State Transition Architecture ($2.8\text{ s} \le t \le 7.05\text{ s}$):}
         \item \textbf{State 4: High-Speed Spin-Up \& Flux Linkage Extraction ($2.8\text{ s} \le t < 3.9\text{ s}$):}
         \begin{itemize}
-            \item Spins motor past $800\text{ rad/s}$ electrical; cuts off current and integrates Back-EMF decay, latching $\hat{\Psi}_{PM} = 0.0436\text{ Wb}$ at $t = 3.90\text{ s}$.
+            \item Spins motor past $1273.2\text{ RPM}$ ($800\text{ rad/s}$ electrical); cuts off current and integrates Back-EMF decay, latching $\hat{\Psi}_{PM} = 0.0436\text{ Wb}$ at $t = 3.90\text{ s}$.
         \end{itemize}
         \item \textbf{State 5: Two-Point Friction \& Active Braking Inertia Extraction ($3.9\text{ s} \le t < 7.05\text{ s}$):}
         \begin{itemize}
-            \item Settles at $60\text{ rad/s}$ ($3.9 - 5.4\text{ s}$) and $120\text{ rad/s}$ ($5.4 - 6.95\text{ s}$), latching $\hat{B} = 0.0010\text{ Nms/rad}$ at $t = 6.95\text{ s}$.
+            \item Settles at $573\text{ RPM}$ ($60\text{ rad/s}$, $3.9 - 5.4\text{ s}$) and $1146\text{ RPM}$ ($120\text{ rad/s}$, $5.4 - 6.95\text{ s}$), latching $\hat{B} = 0.0010\text{ Nms/rad}$ at $t = 6.95\text{ s}$.
             \item Injects braking current step ($-I_{spin} = -56.5\text{ A}$ from $6.95 - 7.05\text{ s}$), latching $\hat{J} = 0.0867\text{ kg}\cdot\text{m}^2$ at $t = 7.05\text{ s}$.
         \end{itemize}
         \item \textbf{State 6: Mission Handover ($t \ge 7.05\text{ s}$):}
@@ -1240,7 +1240,7 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Two-Point Speed Evaluation:} Steps from 0 to identified $B = 0.00012\text{ N}\cdot\text{m}\cdot\text{s/rad}$ at $t = 6.95\text{ s}$ following the $60\text{ rad/s}$ and $120\text{ rad/s}$ speed holds.
+        \item \textbf{Two-Point Speed Evaluation:} Steps from 0 to identified $B = 0.00012\text{ N}\cdot\text{m}\cdot\text{s/rad}$ at $t = 6.95\text{ s}$ following the $573\text{ RPM}$ and $1146\text{ RPM}$ ($60\text{ rad/s}$ and $120\text{ rad/s}$) speed holds.
         \item \textbf{Ripple Rejection:} Multi-sample torque averaging completely filters out inverter switching ripple.
     \end{itemize}
 \end{frame}
@@ -1257,14 +1257,14 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{38. AutoTuner Result: Speed Setpoint Output ($\omega_{ref,out}$)}
+\begin{frame}{38. AutoTuner Result: Speed Setpoint Output ($N_{ref,out}$ [RPM])}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_omega_ref_out.png}
     \vspace{1mm}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Supervisory Trajectory Output:} Holds speed reference at zero during autonomous tuning ($0 - 7.05\text{ s}$), then transparently passes external speed commands ($800\text{ rad/s}$) for $t \ge 7.05\text{ s}$.
+        \item \textbf{Supervisory Trajectory Output:} Holds speed reference at zero during autonomous tuning ($0 - 7.05\text{ s}$), then transparently passes external speed commands ($1273.2\text{ RPM}$) for $t \ge 7.05\text{ s}$.
         \item \textbf{Anti-Windup Protection:} Integrator gating prevents startup transients upon closed-loop engagement.
     \end{itemize}
 \end{frame}
@@ -1349,26 +1349,26 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{47. Speed MPC Result: Speed Tracking Profile ($\omega_e$)}
+\begin{frame}{47. Speed MPC Result: Speed Tracking Profile ($N$ [RPM])}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{Speed_MPC_Tracking_Speed.png}
     \vspace{1mm}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Multi-Regime Speed Trajectory ($0 - 2.5\text{ s}$ Electrical Rad/s Timeline):} Base speed MTPA ramp ($0 \rightarrow 2500\text{ rad/s}$ electrical $\equiv 3979\text{ RPM}$ at $t=0.6\text{ s}$), field-weakening acceleration ($2500 \rightarrow 5500\text{ rad/s} \equiv 8754\text{ RPM}$ at $t=1.7\text{ s}$), and regenerative braking ($5500 \rightarrow 1500\text{ rad/s} \equiv 2387\text{ RPM}$ at $t=2.5\text{ s}$).
-        \item \textbf{Tracking Precision:} Actual rotor speed $\omega_e$ (solid blue) tracks reference $\omega_{ref}$ (dashed black) with high dynamic fidelity and zero overshoot.
+        \item \textbf{Multi-Regime Speed Trajectory ($0 - 2.5\text{ s}$ Timeline in RPM):} Base speed MTPA ramp ($0 \rightarrow 3979\text{ RPM}$ at $t=0.6\text{ s}$), field-weakening acceleration ($3979 \rightarrow 8754\text{ RPM}$ at $t=1.7\text{ s}$), and regenerative braking deceleration ($8754 \rightarrow 2387\text{ RPM}$ at $t=2.5\text{ s}$).
+        \item \textbf{Tracking Precision:} Actual rotor speed $N$ (solid blue) tracks reference $N_{ref}$ (dashed black) with high dynamic fidelity and zero overshoot.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{48. Speed MPC Result: Speed Tracking Error ($e_\omega = \omega_{ref} - \omega_e$)}
+\begin{frame}{48. Speed MPC Result: Speed Tracking Error ($e_{RPM} = N_{ref} - N_{meas}$)}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{Speed_MPC_Tracking_Error_Speed.png}
     \vspace{1mm}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Transient Error Dynamics ($0 - 2.5\text{ s}$):} Error peaks briefly ($\approx 54.5\text{ rad/s} \equiv 86.7\text{ RPM}$) during steep acceleration transitions ($4166\text{ rad/s}^2$).
+        \item \textbf{Transient Error Dynamics ($0 - 2.5\text{ s}$):} Error peaks briefly ($\approx 86.7\text{ RPM}$) during steep acceleration transitions.
     \end{itemize}
 \end{frame}
 
@@ -1717,9 +1717,9 @@
         \textbf{AutoTuner} & Viscous Friction ($B$) & $\text{N}\cdot\text{m}\cdot\text{s}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \rowcolor{blue!5} \textbf{AutoTuner} & Modulating Duties ($d_a, d_b, d_c$) & p.u. & \textbf{3.33e-16} & \textbf{1.26e-17} & \textbf{Epsilon Match} \\
         \textbf{AutoTuner} & Control Mode Flag (\texttt{ctrl\_mode}) & — & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
-        \rowcolor{blue!5} \textbf{AutoTuner} & Speed Setpoint Output ($\omega_{ref,out}$) & rad/s & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \rowcolor{blue!5} \textbf{AutoTuner} & Speed Setpoint Output ($N_{ref,out}$) & RPM & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \midrule
-        \textbf{Speed MPC} & Mechanical Speed Tracking ($\omega_e$) & rad/s & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{Speed MPC} & Mechanical Speed Tracking ($N$) & RPM & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \rowcolor{blue!5} \textbf{Speed MPC} & Dynamic Torque Current Ref ($i_{q,ref}$) & A & \textbf{1.14e-13} & \textbf{2.45e-14} & \textbf{Epsilon Match} \\
         \textbf{Speed MPC} & Demag / Reluctance Current Ref ($i_{d,ref}$) & A & \textbf{1.14e-13} & \textbf{3.12e-14} & \textbf{Epsilon Match} \\
         \midrule

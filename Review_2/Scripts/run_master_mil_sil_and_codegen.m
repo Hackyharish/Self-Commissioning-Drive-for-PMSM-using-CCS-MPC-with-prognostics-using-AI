@@ -1,4 +1,4 @@
-﻿% Master script for MIL & SIL execution, error analysis, plotting, and code generation
+% Master script for MIL & SIL execution, error analysis, plotting, and code generation
 try
     disp('================================================================');
     disp('  STARTING COMPREHENSIVE MIL/SIL VERIFICATION & CODE GENERATION ');
@@ -87,6 +87,15 @@ try
         name = at_names{k};
         d_mil = out_at_mil.yout_mil{k}.Values.Data;
         d_sil = out_at_sil.yout_sil{k}.Values.Data;
+        unit_str = at_units{k};
+        title_str = sprintf('AutoTuner MIL vs SIL: %s', name);
+        if strcmp(name, 'omega_ref_out')
+            % Convert electrical rad/s to RPM (pole pairs = 6: RPM = omega_e * 60 / (2*pi*6))
+            d_mil = d_mil * (60 / (2 * pi * 6));
+            d_sil = d_sil * (60 / (2 * pi * 6));
+            unit_str = 'RPM';
+            title_str = 'AutoTuner MIL vs SIL: Speed Setpoint Output (RPM)';
+        end
         err = abs(d_mil - d_sil);
         max_err = max(err);
         rmse = sqrt(mean(err.^2));
@@ -98,9 +107,13 @@ try
         plot(t_at, d_mil, 'b-', 'LineWidth', 2.0, 'DisplayName', 'MIL (Simulink)'); hold on;
         plot(t_at, d_sil, 'r--', 'LineWidth', 2.0, 'DisplayName', 'SIL (C Code)'); hold off;
         grid on; set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [0.15 0.15 0.15], 'FontSize', 12, 'FontWeight', 'bold');
-        title(sprintf('AutoTuner MIL vs SIL: %s', name), 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
+        title(title_str, 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
         xlabel('Time (s)', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
-        ylabel(sprintf('%s [%s]', name, at_units{k}), 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
+        if strcmp(name, 'omega_ref_out')
+            ylabel('Speed Reference [RPM]', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
+        else
+            ylabel(sprintf('%s [%s]', name, unit_str), 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
+        end
         xlim([0 9.0]);
         lgd = legend('Location', 'best'); set(lgd, 'Color', 'w', 'TextColor', 'k', 'FontSize', 12);
         saveas(f1, fullfile('images', sprintf('AutoTuner_MIL_vs_SIL_%s.png', name)));
@@ -110,9 +123,14 @@ try
         f2 = figure('Color', 'w', 'Position', [100, 100, 900, 550], 'Visible', 'off');
         plot(t_at, err, 'm-', 'LineWidth', 2.0, 'DisplayName', '|MIL - SIL| Error');
         grid on; set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [0.15 0.15 0.15], 'FontSize', 12, 'FontWeight', 'bold');
-        title(sprintf('AutoTuner SIL Deviation Error: %s (Max: %.2e %s, RMSE: %.2e)', name, max_err, at_units{k}, rmse), 'FontSize', 14, 'FontWeight', 'bold', 'Color', 'k');
+        if strcmp(name, 'omega_ref_out')
+            title(sprintf('AutoTuner SIL Deviation Error: Speed Setpoint Output (Max: %.2e RPM, RMSE: %.2e)', max_err, rmse), 'FontSize', 14, 'FontWeight', 'bold', 'Color', 'k');
+            ylabel('Absolute Error [RPM]', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
+        else
+            title(sprintf('AutoTuner SIL Deviation Error: %s (Max: %.2e %s, RMSE: %.2e)', name, max_err, unit_str, rmse), 'FontSize', 14, 'FontWeight', 'bold', 'Color', 'k');
+            ylabel(sprintf('Absolute Error [%s]', unit_str), 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
+        end
         xlabel('Time (s)', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
-        ylabel(sprintf('Absolute Error [%s]', at_units{k}), 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
         xlim([0 9.0]);
         lgd = legend('Location', 'best'); set(lgd, 'Color', 'w', 'TextColor', 'k', 'FontSize', 12);
         saveas(f2, fullfile('images', sprintf('AutoTuner_Error_%s.png', name)));
@@ -440,7 +458,7 @@ try
     plot(t_sp, w_ref_sp * (60/(2*pi)), 'k--', 'LineWidth', 2.2, 'DisplayName', 'Speed Reference (RPM)'); hold on;
     plot(t_sp, omega_m_sp * (60/(2*pi)), 'b-', 'LineWidth', 1.8, 'DisplayName', 'Actual Speed (RPM)'); hold off;
     grid on; set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [0.15 0.15 0.15], 'FontSize', 12, 'FontWeight', 'bold');
-    title('Speed MPC Mechanical Velocity Tracking Profile', 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
+    title('Speed MPC Velocity Tracking Profile (RPM)', 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
     xlabel('Time (s)', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
     ylabel('Mechanical Speed [RPM]', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
     xlim([0 4.0]);
@@ -451,7 +469,7 @@ try
     f_spd_err = figure('Color', 'w', 'Position', [100, 100, 900, 550], 'Visible', 'off');
     plot(t_sp, (w_ref_sp - omega_m_sp) * (60/(2*pi)), 'r-', 'LineWidth', 2.0, 'DisplayName', 'Tracking Error (RPM)');
     grid on; set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [0.15 0.15 0.15], 'FontSize', 12, 'FontWeight', 'bold');
-    title('Speed MPC Velocity Tracking Error (\omega_{ref} - \omega_m)', 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
+    title('Speed MPC Velocity Tracking Error (RPM)', 'FontSize', 15, 'FontWeight', 'bold', 'Color', 'k');
     xlabel('Time (s)', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
     ylabel('Speed Error [RPM]', 'FontSize', 13, 'Color', 'k', 'FontWeight', 'bold');
     xlim([0 4.0]);

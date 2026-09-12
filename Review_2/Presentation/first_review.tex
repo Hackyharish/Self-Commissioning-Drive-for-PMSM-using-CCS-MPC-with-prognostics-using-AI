@@ -366,8 +366,9 @@
 \begin{frame}{15. References (IEEE Format)}
     \tiny
     \textbf{Base Paper:} I. Hammoud \textit{et al.}, ``On Continuous-Set Model Predictive Control of Permanent Magnet Synchronous Machines,'' \textit{IEEE Trans. Power Electron.}, vol. 37, no. 9, Sept. 2022.
-    \vspace{2mm}
-    \begin{thebibliography}{9}
+    \vspace{1.5mm}
+    \begin{thebibliography}{10}
+        \setlength{\itemsep}{0pt}
         \bibitem{1} M. S. Rafaq and J. Jung, ``A Comprehensive Review of State-of-the-Art Parameter Estimation Techniques for PMSM,'' \textit{IEEE Trans. Ind. Inform.}, vol. 16, no. 7, 2020.
         \bibitem{2} N. Rajeswaran \textit{et al.}, ``FPGA Implementation of AI-Based Inverter IGBT Open Circuit Fault Diagnosis,'' \textit{Micromachines}, vol. 13, no. 5, 2022.
         \bibitem{3} A. Bacha \textit{et al.}, ``Advanced Deep Learning Approaches for Fault Detection and Diagnosis in Inverter-Driven PMSM Systems,'' \textit{IJACSA}, vol. 15, no. 12, 2024.
@@ -377,6 +378,7 @@
         \bibitem{7} Z. Liang \textit{et al.}, ``Weight-Adaptable Disturbance Observer for CCS-MPC of NPC-3L-Fed PMSMS,'' \textit{Energies}, vol. 18, no. 21, 2025.
         \bibitem{8} Y. Zhang \textit{et al.}, ``An open-circuit fault diagnosis method for PMSM drive system based on multi-branch 1D-CNN,'' \textit{J. Phys.: Conf. Ser.}, 2024.
         \bibitem{9} L. Li \textit{et al.}, ``Mechanism-Based Fault Diagnosis Deep Learning Method for PMSM,'' \textit{Sensors}, vol. 24, no. 19, 2024.
+        \bibitem{10} M. Gierczy\'nski and L. M. Grzesiak, ``Comparative Analysis of the Steady-State Model Including Non-Linear Flux Linkage Surfaces and the Simplified Linearized Model when Applied to a Highly-Saturated Permanent Magnet Synchronous Machine---Evaluation Based on the Example of the BMW i3 Traction Motor,'' \textit{Energies}, vol. 14, no. 9, art. 2343, 2021.
     \end{thebibliography}
 \end{frame}
 
@@ -417,7 +419,7 @@
     \begin{columns}[T]
         \column{0.52\textwidth}
         \textbf{PMSM \& Inverter Parameters} \\
-        \textit{\scriptsize Standard Application: BMW i3 Traction Motor (EV) \cite{6}}
+        \textit{\scriptsize Standard Application: BMW i3 Traction Motor (EV) \cite{10}}
         \vspace{1mm}
 
         \resizebox{\linewidth}{!}{%
@@ -960,11 +962,12 @@
 \begin{frame}
     \centering
     \vfill
-    \Huge \textbf{Review-2}
-    \vfill
-    \LARGE \textbf{Model-in-the-Loop (MIL) \& Software-in-the-Loop (SIL) Verification, Standalone Deployments, and Real-Time Trajectory Optimization}
-    \vfill
-    \normalsize \textit{Self-Commissioning CCS-MPC PMSM Drive System}
+    {\Large \textbf{Self-Commissioning Drive for PMSM using CCS-MPC with prognostics using Artificial Intelligence}\par}
+    \vspace{6mm}
+    {\Huge \textbf{Review-2}\par}
+    \vspace{8mm}
+    {\scriptsize \textbf{Motor Parameters \& Machine Equations Reference:}\\[3pt]
+    M. Gierczy\'nski and L. M. Grzesiak, ``Comparative Analysis of the Steady-State Model Including Non-Linear Flux Linkage Surfaces and the Simplified Linearized Model when Applied to a Highly-Saturated Permanent Magnet Synchronous Machine---Evaluation Based on the Example of the BMW i3 Traction Motor,'' \textit{Energies}, vol. 14, no. 9, art. 2343, 2021.\par}
     \vfill
 \end{frame}
 
@@ -1005,7 +1008,7 @@
         \textbf{\footnotesize Electrical Machine Parameters} \\
         \vspace{1mm}
         \resizebox{\linewidth}{!}{%
-        \renewcommand{\arraystretch}{1.18}
+        \renewcommand{\arraystretch}{1.12}
         \begin{tabular}{llc}
             \toprule
             \textbf{Parameter Name} & \textbf{Symbol} & \textbf{Nominal Value} \\
@@ -1027,7 +1030,7 @@
         \textbf{\footnotesize Operational Ratings \& Inverter Interface} \\
         \vspace{1mm}
         \resizebox{\linewidth}{!}{%
-        \renewcommand{\arraystretch}{1.18}
+        \renewcommand{\arraystretch}{1.12}
         \begin{tabular}{llc}
             \toprule
             \textbf{Specification} & \textbf{Symbol} & \textbf{Rated Limit} \\
@@ -1045,6 +1048,9 @@
         \end{tabular}%
         }
     \end{columns}
+    \vspace{2mm}
+    \centering
+    \tiny \textbf{Parameter \& Steady-State Model Reference:} M. Gierczy\'nski and L. M. Grzesiak, ``Comparative Analysis of the Steady-State Model Including Non-Linear Flux Linkage Surfaces and the Simplified Linearized Model when Applied to a Highly-Saturated Permanent Magnet Synchronous Machine---Evaluation Based on the Example of the BMW i3 Traction Motor,'' \textit{Energies}, vol. 14, no. 9, art. 2343, 2021.
 \end{frame}
 
 \begin{frame}{29. Overall Self-Commissioning Cascaded Control Architecture}
@@ -1432,7 +1438,7 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Continuous Machine Equations in Synchronous d-q Frame:}
+        \item \textbf{Continuous Machine Equations in Synchronous d-q Frame \cite{10}:}
         \begin{align}
             \frac{di_d}{dt} &= -\frac{R_s}{L_d} i_d + \omega_e \frac{L_q}{L_d} i_q + \frac{1}{L_d} v_d \\
             \frac{di_q}{dt} &= -\frac{R_s}{L_q} i_q - \omega_e \frac{L_d}{L_q} i_d - \frac{\omega_e \Psi_{PM}}{L_q} + \frac{1}{L_q} v_q
@@ -1447,6 +1453,9 @@
             V_{mag} = \sqrt{v_{d,opt}^2 + v_{q,opt}^2}, \quad v_{dq} = v_{dq,opt} \frac{V_{max}}{V_{mag}} \quad (\text{if } V_{mag} > V_{max})
         \end{equation}
     \end{itemize}
+    \vspace{1mm}
+    \centering
+    \tiny \textit{Machine dynamics formulation reference: M. Gierczy\'nski and L. M. Grzesiak, Energies, vol. 14, no. 9, 2021 \cite{10}.}
 \end{frame}
 
 \begin{frame}{54a. Physical Current Ripple Justification: Theoretical $\Delta I_L$ Formulation}

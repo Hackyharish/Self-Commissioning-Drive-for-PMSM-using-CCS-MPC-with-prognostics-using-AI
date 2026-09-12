@@ -324,14 +324,14 @@
     \small
     \begin{tabular}{l l r}
         \toprule
-        \textbf{Item} & \textbf{Purpose} & \textbf{Approx. Cost (₹)} \\
+        \textbf{Item} & \textbf{Purpose} & \textbf{Approx. Cost (INR)} \\
         \midrule
         Microcontroller dev kit (STM32G474RE) & Real-time embedded control & 3,000 -- 5,000 \\
         Raspberry Pi kit & AI Prognostics Deployment & 4,000 -- 7,000 \\
         Interface Components & I/O shifting for HIL connection & 1,000 -- 2,000 \\
         HIL platform usage / lab access & Real-time plant emulation & As per lab availability \\
         \midrule
-        \textbf{Estimated Total} & & \textbf{₹8,000 -- 14,000} \\
+        \textbf{Estimated Total} & & \textbf{INR 8,000 -- 14,000} \\
         \bottomrule
     \end{tabular}
     \vspace{0.3cm}
@@ -881,7 +881,7 @@
 \begin{frame}{24. Self-Commissioning: Parameter Identification Benchmark}
     \centering
     \small
-    \textbf{Identified Parameters Across Simulation & Target Firmware (BMW i3 IPMSM, $T_s = 100\ \mu\text{s}$)}
+    \textbf{Identified Parameters Across Simulation \& Target Firmware (BMW i3 IPMSM, $T_s = 100\ \mu\text{s}$)}
     \vspace{2mm}
     \resizebox{0.92\textwidth}{!}{%
     \renewcommand{\arraystretch}{1.2}
@@ -907,7 +907,7 @@
 
 \begin{frame}{25. Strategy of Auto-Tuning: 7.0-Second Sequence (Part 1)}
     \begin{itemize}
-        \item \textbf{Supervisory Timing & State Transition Architecture ($0.0\text{ s} \le t < 2.8\text{ s}$):}
+        \item \textbf{Supervisory Timing \& State Transition Architecture ($0.0\text{ s} \le t < 2.8\text{ s}$):}
         \item \textbf{State 0: Dynamic PI Bandwidth Tuning ($0.0\text{ s} \le t < 0.4\text{ s}$):}
         \begin{itemize}
             \item Injects initial voltage pulse $V_p = 16\text{ V}$; computes $L_{rough} = \frac{V_p \Delta t}{\Delta i}$ to dynamically initialize internal loop gains ($K_p = L_{rough}\omega_{bw}, K_i = 100 K_p$).
@@ -929,12 +929,12 @@
 
 \begin{frame}{26. Strategy of Auto-Tuning: 7.0-Second Sequence (Part 2)}
     \begin{itemize}
-        \item \textbf{Supervisory Timing & State Transition Architecture ($2.8\text{ s} \le t \le 7.05\text{ s}$):}
-        \item \textbf{State 4: High-Speed Spin-Up & Flux Linkage Extraction ($2.8\text{ s} \le t < 3.9\text{ s}$):}
+        \item \textbf{Supervisory Timing \& State Transition Architecture ($2.8\text{ s} \le t \le 7.05\text{ s}$):}
+        \item \textbf{State 4: High-Speed Spin-Up \& Flux Linkage Extraction ($2.8\text{ s} \le t < 3.9\text{ s}$):}
         \begin{itemize}
             \item Spins motor past $800\text{ rad/s}$ electrical; cuts off current and integrates Back-EMF decay, latching $\hat{\Psi}_{PM} = 0.0436\text{ Wb}$ at $t = 3.90\text{ s}$.
         \end{itemize}
-        \item \textbf{State 5: Two-Point Friction & Active Braking Inertia Extraction ($3.9\text{ s} \le t < 7.05\text{ s}$):}
+        \item \textbf{State 5: Two-Point Friction \& Active Braking Inertia Extraction ($3.9\text{ s} \le t < 7.05\text{ s}$):}
         \begin{itemize}
             \item Settles at $60\text{ rad/s}$ ($3.9 - 5.4\text{ s}$) and $120\text{ rad/s}$ ($5.4 - 6.95\text{ s}$), latching $\hat{B} = 0.0010\text{ Nms/rad}$ at $t = 6.95\text{ s}$.
             \item Injects braking current step ($-I_{spin} = -56.5\text{ A}$ from $6.95 - 7.05\text{ s}$), latching $\hat{J} = 0.0867\text{ kg}\cdot\text{m}^2$ at $t = 7.05\text{ s}$.
@@ -1595,7 +1595,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{66. MTPA & MTPV Operating Envelope Mathematical Formulation}
+\begin{frame}{66. MTPA \& MTPV Operating Envelope Mathematical Formulation}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
@@ -1618,7 +1618,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{67. MTPA / MTPV Operating Envelope & Capability Profiles}
+\begin{frame}{67. MTPA / MTPV Operating Envelope \& Capability Profiles}
     \centering
     \includegraphics[height=0.52\textheight,keepaspectratio]{MTPA_MTPV_Vector_Plane_Envelope.png}
     \vspace{1mm}
@@ -1630,7 +1630,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{68. MTPA / MTPV Operating Regions & Transition Criteria}
+\begin{frame}{68. MTPA / MTPV Operating Regions \& Transition Criteria}
     \centering
     \small
     \textbf{Operational Control Regimes in the $(i_d, i_q)$ Current Vector Plane}
@@ -1679,7 +1679,7 @@
 
 % ---------------------------------------------------
 
-\begin{frame}{71. Hardware-in-the-Loop (HIL) Testbed & Review-3 Roadmap}
+\begin{frame}{71. Hardware-in-the-Loop (HIL) Testbed \& Review-3 Roadmap}
     \begin{itemize}
         \item \textbf{Review-2 Milestones Successfully Achieved:}
         \begin{itemize}

@@ -1356,8 +1356,8 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Multi-Regime Speed Trajectory ($0 - 2.5\text{ s}$ Timeline in RPM):} Base speed MTPA ramp ($0 \rightarrow 3979\text{ RPM}$ at $t=0.6\text{ s}$), field-weakening acceleration ($3979 \rightarrow 8754\text{ RPM}$ at $t=1.7\text{ s}$), and regenerative braking deceleration ($8754 \rightarrow 2387\text{ RPM}$ at $t=2.5\text{ s}$).
-        \item \textbf{Tracking Precision:} Actual rotor speed $N$ (solid blue) tracks reference $N_{ref}$ (dashed black) with high dynamic fidelity and zero overshoot.
+        \item \textbf{Closed-Loop Speed Step Response ($0 - 0.40\text{ s}$ Timeline in RPM):} Reference step command ($0 \rightarrow 318.3\text{ RPM}$ at $t=0.05\text{ s}$, corresponding to $200\text{ rad/s}$ electrical with $p = 6$ pole pairs).
+        \item \textbf{Tracking Fidelity:} Measured rotor speed $N$ (solid blue) smoothly tracks reference $N_{ref}$ (dashed black) with high dynamic precision and zero overshoot.
     \end{itemize}
 \end{frame}
 
@@ -1368,7 +1368,7 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Transient Error Dynamics ($0 - 2.5\text{ s}$):} Error peaks briefly ($\approx 86.7\text{ RPM}$) during steep acceleration transitions.
+        \item \textbf{Transient Error Dynamics ($0 - 0.40\text{ s}$):} Error peaks briefly during the step transition ($318.3\text{ RPM}$) and settles cleanly to steady-state ($< 0.1\text{ RPM}$) within $50\text{ ms}$.
     \end{itemize}
 \end{frame}
 

@@ -1458,7 +1458,7 @@
     \tiny \textit{Machine dynamics formulation reference: M. Gierczy\'nski and L. M. Grzesiak, Energies, vol. 14, no. 9, 2021 \cite{10}.}
 \end{frame}
 
-\begin{frame}{54a. Physical Current Ripple Justification \& ADC Sampling Architecture}
+\begin{frame}{54a. Physical Current Ripple Justification \& Symmetric SVPWM Architecture}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{3pt}
@@ -1474,8 +1474,8 @@
             \item \textbf{$q$-axis Ripple ($L_q = 141.30\ \mu\text{H}$):} $\Delta I_{Lq,max} = \frac{400\text{ V}}{4 \times 10{,}000\text{ Hz} \times 141.30 \times 10^{-6}\text{ H}} = \mathbf{70.77\text{ A}_{pk-pk}} \quad (\pm 35.39\text{ A})$
             \item \textbf{$d$-axis Ripple ($L_d = 71.20\ \mu\text{H}$):} $\Delta I_{Ld,max} = \frac{400\text{ V}}{4 \times 10{,}000\text{ Hz} \times 71.20 \times 10^{-6}\text{ H}} = \mathbf{140.45\text{ A}_{pk-pk}} \quad (\pm 70.22\text{ A})$
         \end{itemize}
-        \item \textbf{Industry Standard ADC Filtering \& Carrier-Synchronized Acquisition:}
-        In physical automotive inverters (BMW i3 / DSP), hardware analog RC filters ($f_c \approx 1\text{--}3\text{ kHz}$) and carrier-synchronized ADC sampling at PWM timer zero/period attenuate $10\text{ kHz}$ switching harmonics ($\Delta i = 0$ at midpoint), capturing pure fundamental current ($\pm 5\text{ A}$ band).
+        \item \textbf{Symmetric Center-Aligned SVPWM \& Physical Ripple Reduction:}
+        Replacing single-slope sawtooth modulation with dual-slope symmetric triangular carrier centers pulses around $T_{sw}/2$ via 7-segment sequence ($V_0 \to V_1 \to V_2 \to V_7 \to V_2 \to V_1 \to V_0$), reducing raw physical ripple by \textbf{87.8\%} ($362.7\text{ A} \to 44.1\text{ A}_{pk-pk}$) and eliminating the $1666.7\text{ Hz}$ subharmonic beat.
     \end{itemize}
 \end{frame}
 
@@ -1488,7 +1488,7 @@
         \setlength{\itemsep}{1.5pt}
         \item \textbf{100\% Maximum Rated Torque Dynamic Step ($0 \to 467.07\text{ A}$):} Authentic closed-loop Simulink model step response to full rated load torque ($250.0\text{ Nm}$) commanded at $t = 0.05\text{ s}$ by the outer speed loop and MTPA algorithm.
         \item \textbf{Rapid Deadbeat Dynamic Tracking:} Quadrature stator current rises and settles completely within $< 15\text{ ms}$ with zero overshoot and robust stability under full magnetic saturation.
-        \item \textbf{Clean Fundamental Current Acquisition:} With industry-standard ADC anti-aliasing filtering ($150\text{ Hz}$ cut-off, matching carrier-synchronized hardware sampling), the $10\text{ kHz}$ switching harmonics are attenuated, yielding clean fundamental tracking with steady-state ripple $\le \pm 5.6\text{ A}$.
+        \item \textbf{Physical Ripple Bounded \& Clean Acquisition:} Dual-slope center-aligned SVPWM keeps raw winding ripple strictly within $\Delta I_{Lq,max} = 70.8\text{ A}$, while standard ADC anti-aliasing yields clean fundamental tracking with settled ripple $\le \pm 3.9\text{ A}$.
     \end{itemize}
 \end{frame}
 
@@ -1500,7 +1500,7 @@
         \footnotesize
         \setlength{\itemsep}{2pt}
         \item \textbf{Step Transient \& Fast Recovery:} Immediate transient error spike during the rated step at $t = 0.05\text{ s}$ settles completely within $15\text{ ms}$ via predictive deadbeat correction.
-        \item \textbf{Tightly Bounded Settled Tracking Error:} Mean steady-state tracking error settles to $e_{ss} = +7.87\text{ A}$ (\textbf{98.3\% accuracy} at $467.07\text{ A}$ rated current), with settled steady-state ripple tightly bounded within the $\pm 5.6\text{ A}$ error envelope.
+        \item \textbf{High Fundamental Tracking Accuracy:} Mean steady-state tracking error settles to $e_{ss} = +4.34\text{ A}$ (\textbf{99.1\% accuracy} at $467.07\text{ A}$ rated current), with settled steady-state ripple tightly bounded within the $\pm 3.9\text{ A}$ error envelope.
     \end{itemize}
 \end{frame}
 
@@ -1523,8 +1523,8 @@
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
-        \item \textbf{Near-Zero Fundamental DC Offset:} Mean steady-state direct-axis error is bounded at $e_{ss} = -0.84\text{ A}$ (\textbf{99.7\% accuracy} under $-254.25\text{ A}$ MTPA demagnetization bias).
-        \item \textbf{Settled Ripple Verification:} Direct-axis settled ripple measures $\le \pm 3.3\text{ A}$ ($6.6\text{ A}_{pk-pk}$), demonstrating clean and robust direct-axis current regulation under deep reluctance torque generation.
+        \item \textbf{High Fundamental Demagnetization Accuracy:} Mean steady-state direct-axis error is bounded at $e_{ss} = -7.03\text{ A}$ (\textbf{97.3\% accuracy} under $-254.25\text{ A}$ MTPA demagnetization bias).
+        \item \textbf{Settled Ripple Verification:} Direct-axis settled ripple measures $\le \pm 10.0\text{ A}$ ($20.0\text{ A}_{pk-pk}$), demonstrating clean and robust direct-axis current regulation under deep reluctance torque generation.
     \end{itemize}
 \end{frame}
 

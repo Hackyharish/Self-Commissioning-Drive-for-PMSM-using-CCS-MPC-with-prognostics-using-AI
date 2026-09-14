@@ -1663,26 +1663,7 @@
 
 % ---------------------------------------------------
 
-\begin{frame}{71. Hardware-in-the-Loop (HIL) Testbed \& Review-3 Roadmap}
-    \begin{itemize}
-        \item \textbf{Review-2 Milestones Successfully Achieved:}
-        \begin{itemize}
-            \item \textbf{Modularization:} 3 standalone models configured and tested ($5\ \mu\text{s}$ base, $10\text{ kHz}$ loop).
-            \item \textbf{MIL/SIL Parity:} $0.00\text{e+}00$ error across all physical parameters and PWM switching pulses.
-            \item \textbf{Operating Envelope:} Analytically derived and mapped MTPA, MTPV, and field-weakening trajectories.
-            \item \textbf{Code Generation:} ANSI C99 production code generated via Embedded Coder and verified in SIL co-simulation.
-        \end{itemize}
-        \item \textbf{Review-3 Execution Roadmap:}
-        \begin{itemize}
-            \item \textbf{Milestone 1 (PIL Testing):} Execute compiled firmware on physical STM32 Nucleo board via ST-Link.
-            \item \textbf{Milestone 2 (HIL Integration):} Connect STM32 to Typhoon HIL 404 real-time plant emulator.
-            \item \textbf{Milestone 3 (Fault Injection):} Inject inverter open/short-switch faults within Typhoon HIL.
-            \item \textbf{Milestone 4 (AI Prognostics):} Deploy 1D-CNN fault classification model on Raspberry Pi 4.
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{72. Master Verification Summary: Complete MIL vs. SIL Equivalence}
+\begin{frame}{71. Master Verification Summary: Complete MIL vs. SIL Equivalence}
     \centering
     \footnotesize
     \textbf{Summary of All Verified Signals across Standalone Modules \& Tracking Loops ($T_s = 5\ \mu\text{s}$, Rate = $10\text{ kHz}$)}
@@ -1725,7 +1706,24 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{69. Mathematical Formulations \& Literature References}
+\begin{frame}{72. Hardware-in-the-Loop (HIL) Testbed \& Review-3 Roadmap}
+    \begin{itemize}
+        \item \textbf{Review-2 Milestones Successfully Achieved:}
+        \begin{itemize}
+            \item \textbf{Modularization:} 3 standalone models configured and tested ($5\ \mu\text{s}$ base, $10\text{ kHz}$ loop).
+            \item \textbf{MIL/SIL Parity:} $0.00\text{e+}00$ error across all physical parameters and PWM switching pulses.
+            \item \textbf{Operating Envelope:} Analytically derived and mapped MTPA, MTPV, and field-weakening trajectories.
+            \item \textbf{Code Generation:} ANSI C99 production code generated via Embedded Coder and verified in SIL co-simulation.
+        \end{itemize}
+        \item \textbf{Review-3 Execution Roadmap:}
+        \begin{itemize}
+            \item \textbf{Milestone 1 (PIL Testing):} Execute compiled firmware on physical STM32 Nucleo board via ST-Link.
+            \item \textbf{Milestone 2 (AI Prognostics):} Deploy 1D-CNN fault classification model on Raspberry Pi 4.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{73. Mathematical Formulations \& Literature References}
     \tiny
     \begin{thebibliography}{10}
         \setlength{\itemsep}{2.5pt}

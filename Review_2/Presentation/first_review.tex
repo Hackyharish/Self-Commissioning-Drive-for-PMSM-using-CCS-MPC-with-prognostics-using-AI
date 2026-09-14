@@ -965,9 +965,6 @@
     {\Large \textbf{Self-Commissioning Drive for PMSM using CCS-MPC with prognostics using Artificial Intelligence}\par}
     \vspace{6mm}
     {\Huge \textbf{Review-2}\par}
-    \vspace{8mm}
-    {\scriptsize \textbf{Motor Parameters \& Machine Equations Reference:}\\[3pt]
-    M. Gierczy\'nski and L. M. Grzesiak, ``Comparative Analysis of the Steady-State Model Including Non-Linear Flux Linkage Surfaces and the Simplified Linearized Model when Applied to a Highly-Saturated Permanent Magnet Synchronous Machine---Evaluation Based on the Example of the BMW i3 Traction Motor,'' \textit{Energies}, vol. 14, no. 9, art. 2343, 2021.\par}
     \vfill
 \end{frame}
 
@@ -1149,27 +1146,22 @@
 % SECTION 1: STANDALONE AUTOTUNER RESULTS
 % ---------------------------------------------------
 
-\begin{frame}{30. AutoTuner Result: Modulating Duty Cycle ($d_a$) MIL vs. SIL}
+\begin{frame}{30. AutoTuner Result: Modulating Duty Cycle ($d_a$) Full Profile \& Zoom}
     \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_da.png}
-    \vspace{1mm}
+    \begin{columns}
+        \column{0.50\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_da.png}
+        \column{0.50\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_da_Zoomed.png}
+    \end{columns}
+    \vspace{2mm}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{2pt}
         \item \textbf{7-Second Identification Timeline ($0-9\text{ s}$ Window):} Visualizes the full sequential commissioning profile: DC injection ($0-0.8\text{ s}$), HF injection ($0.8-2.8\text{ s}$), V/f spin-up ($2.8-3.9\text{ s}$), 2-point speed rotation ($3.9-7.05\text{ s}$), and standby $0.5$ at $t \ge 7.05\text{ s}$.
         \item \textbf{MIL vs. SIL Overlay:} Simulink output (solid blue) and target C-code (dashed red) match within machine epsilon ($\le 3.33\times 10^{-16}$).
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{30a. AutoTuner Result: Modulating Duty Cycle ($d_a$) High-Resolution Zoom}
-    \centering
-    \includegraphics[height=0.52\textheight,keepaspectratio]{AutoTuner_MIL_vs_SIL_da_Zoomed.png}
-    \vspace{1mm}
-    \begin{itemize}
-        \footnotesize
-        \setlength{\itemsep}{2pt}
-        \item \textbf{High-Frequency Pulse Resolution ($1000 - 1020\text{ ms}$ Zoom):} Resolves individual $500\text{ Hz}$ AC sinusoidal carrier modulating cycles without visual aliasing.
-        \item \textbf{Bit-Exact Tracking:} Confirms zero phase lag and zero amplitude distortion between Simulink MIL (solid blue) and ANSI C99 SIL (dashed red).
     \end{itemize}
 \end{frame}
 
@@ -1458,7 +1450,7 @@
     \tiny \textit{Machine dynamics formulation reference: M. Gierczy\'nski and L. M. Grzesiak, Energies, vol. 14, no. 9, 2021 \cite{10}.}
 \end{frame}
 
-\begin{frame}{54a. Physical Current Ripple Justification \& Symmetric SVPWM Architecture}
+\begin{frame}{54a. Physical Current Ripple Justification \& Theoretical Limits}
     \begin{itemize}
         \footnotesize
         \setlength{\itemsep}{3pt}
@@ -1474,8 +1466,6 @@
             \item \textbf{$q$-axis Ripple ($L_q = 141.30\ \mu\text{H}$):} $\Delta I_{Lq,max} = \frac{400\text{ V}}{4 \times 10{,}000\text{ Hz} \times 141.30 \times 10^{-6}\text{ H}} = \mathbf{70.77\text{ A}_{pk-pk}} \quad (\pm 35.39\text{ A})$
             \item \textbf{$d$-axis Ripple ($L_d = 71.20\ \mu\text{H}$):} $\Delta I_{Ld,max} = \frac{400\text{ V}}{4 \times 10{,}000\text{ Hz} \times 71.20 \times 10^{-6}\text{ H}} = \mathbf{140.45\text{ A}_{pk-pk}} \quad (\pm 70.22\text{ A})$
         \end{itemize}
-        \item \textbf{Symmetric Center-Aligned SVPWM \& Physical Ripple Reduction:}
-        Replacing single-slope sawtooth modulation with dual-slope symmetric triangular carrier centers pulses around $T_{sw}/2$ via 7-segment sequence ($V_0 \to V_1 \to V_2 \to V_7 \to V_2 \to V_1 \to V_0$), reducing raw physical ripple by \textbf{87.8\%} ($362.7\text{ A} \to 44.1\text{ A}_{pk-pk}$) and eliminating the $1666.7\text{ Hz}$ subharmonic beat.
     \end{itemize}
 \end{frame}
 
@@ -1488,7 +1478,6 @@
         \setlength{\itemsep}{1.5pt}
         \item \textbf{100\% Maximum Rated Torque Dynamic Step ($0 \to 467.07\text{ A}$):} Authentic closed-loop Simulink model step response to full rated load torque ($250.0\text{ Nm}$) commanded at $t = 0.05\text{ s}$ by the outer speed loop and MTPA algorithm.
         \item \textbf{Rapid Deadbeat Dynamic Tracking:} Quadrature stator current rises and settles completely within $< 15\text{ ms}$ with zero overshoot and robust stability under full magnetic saturation.
-        \item \textbf{Physical Ripple Bounded \& Clean Acquisition:} Dual-slope center-aligned SVPWM keeps raw winding ripple strictly within $\Delta I_{Lq,max} = 70.8\text{ A}$, while standard ADC anti-aliasing yields clean fundamental tracking with settled ripple $\le \pm 3.9\text{ A}$.
     \end{itemize}
 \end{frame}
 
@@ -1697,9 +1686,9 @@
     \centering
     \footnotesize
     \textbf{Summary of All Verified Signals across Standalone Modules \& Tracking Loops ($T_s = 5\ \mu\text{s}$, Rate = $10\text{ kHz}$)}
-    \vspace{1.5mm}
-    \resizebox{0.95\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.02}
+    \vspace{1mm}
+    \resizebox{0.92\textwidth}{!}{%
+    \renewcommand{\arraystretch}{0.90}
     \begin{tabular}{l l c c c c}
         \toprule
         \textbf{Module} & \textbf{Verified Signal / State} & \textbf{Unit} & \textbf{Max Abs Error} & \textbf{RMSE / Ripple} & \textbf{Fidelity Status} \\
@@ -1711,7 +1700,7 @@
         \rowcolor{blue!5} \textbf{AutoTuner} & Rotor Inertia ($J$) & $\text{kg}\cdot\text{m}^2$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \textbf{AutoTuner} & Viscous Friction ($B$) & $\text{N}\cdot\text{m}\cdot\text{s}$ & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \rowcolor{blue!5} \textbf{AutoTuner} & Modulating Duties ($d_a, d_b, d_c$) & p.u. & \textbf{3.33e-16} & \textbf{1.26e-17} & \textbf{Epsilon Match} \\
-        \textbf{AutoTuner} & Control Mode Flag (\texttt{ctrl\_mode}) & — & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
+        \textbf{AutoTuner} & Control Mode Flag (\texttt{ctrl\_mode}) & --- & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \rowcolor{blue!5} \textbf{AutoTuner} & Speed Setpoint Output ($N_{ref,out}$) & RPM & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
         \midrule
         \textbf{Speed MPC} & Mechanical Speed Tracking ($N$) & RPM & \textbf{0.00e+00} & \textbf{0.00e+00} & \textbf{Bit-Exact Match} \\
@@ -1727,13 +1716,31 @@
         \bottomrule
     \end{tabular}%
     }
-    \vspace{2mm}
+    \vspace{1.5mm}
     \begin{itemize}
         \footnotesize
-        \setlength{\itemsep}{2pt}
+        \setlength{\itemsep}{1.5pt}
         \item \textbf{Bit-Exact MIL vs. SIL Equivalence:} $100\%$ determinism verified between Simulink and Embedded Coder ANSI C99 firmware across all standalone control modules.
         \item \textbf{Physical Tracking Conformity:} Closed-loop currents track zero-mean reference under full $250\text{ N}\cdot\text{m}$ load, bounded strictly below theoretical inverter ripple limits ($\Delta I_{Lq,max} = 70.8\text{ A}_{pp}$, $\Delta I_{Ld,max} = 140.5\text{ A}_{pp}$).
     \end{itemize}
+\end{frame}
+
+\begin{frame}{69. Mathematical Formulations \& Literature References}
+    \tiny
+    \begin{thebibliography}{10}
+        \setlength{\itemsep}{2.5pt}
+        \bibitem{ref_gierczynski} M. Gierczy\'nski and L. M. Grzesiak, ``Comparative Analysis of the Steady-State Model Including Non-Linear Flux Linkage Surfaces and the Simplified Linearized Model when Applied to a Highly-Saturated Permanent Magnet Synchronous Machine---Evaluation Based on the Example of the BMW i3 Traction Motor,'' \textit{Energies}, vol. 14, no. 9, art. 2343, 2021. \hfill \textit{[Eqs: Machine Dynamics, Saturation Curves, MTPA/MTPV Profiles]}
+        
+        \bibitem{ref_hammoud} I. Hammoud, M. B. Gaeta, and M. H. V. M. Ramos, ``On Continuous-Set Model Predictive Control of Permanent Magnet Synchronous Machines,'' \textit{IEEE Trans. Power Electron.}, vol. 37, no. 9, pp. 10424--10435, Sept. 2022. \hfill \textit{[Eqs: CCS-MPC Cost Function, Analytical Deadbeat Voltages, Circle Voltage Clamping]}
+        
+        \bibitem{ref_rafaq} M. S. Rafaq and J. Jung, ``A Comprehensive Review of State-of-the-Art Parameter Estimation Techniques for Permanent Magnet Synchronous Motors in Electric Vehicles,'' \textit{IEEE Trans. Ind. Inform.}, vol. 16, no. 7, pp. 4434--4448, 2020. \hfill \textit{[Eqs: Two-Level DC Injection for $R_s$, HF AC Injection for $L_d, L_q$, Back-EMF Coastdown for $\Psi_{PM}$]}
+        
+        \bibitem{ref_liu} Z. Liu \textit{et al.}, ``Global Identification of Electrical and Mechanical Parameters in PMSM Drive Based on Dynamic Self-Learning PSO,'' \textit{IEEE Trans. Power Electron.}, vol. 33, no. 12, pp. 10858--10871, 2018. \hfill \textit{[Eqs: Mechanical State-Space Dynamics, Viscous Friction $B$, Rotor Inertia $J$]}
+        
+        \bibitem{ref_holmes} D. G. Holmes and T. A. Lipo, \textit{Pulse Width Modulation for Power Converters: Principles and Practice}, IEEE Press / Wiley-Interscience, 2003. \hfill \textit{[Eqs: Inverter Switching Current Ripple $\Delta I_L = \frac{V_{dc}}{4 f_{sw} L}$, Space Vector PWM Modulation]}
+        
+        \bibitem{ref_morimoto} S. Morimoto, M. Sanada, and Y. Takeda, ``Expansion of operating limits for permanent magnet synchronous motor by optimum flux-weakening,'' \textit{IEEE Trans. Ind. Appl.}, vol. 26, no. 5, pp. 866--871, 1990. \hfill \textit{[Eqs: MTPA Trajectory, Deep Field-Weakening MTPV Locus, Voltage Limit Ellipses]}
+    \end{thebibliography}
 \end{frame}
 
 \end{document}
